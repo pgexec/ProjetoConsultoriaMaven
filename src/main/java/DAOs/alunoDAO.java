@@ -123,35 +123,41 @@ public class alunoDAO implements CrudRepository<AlunoTO>{
 	}
 
 	@Override
-	public List<AlunoTO> list() {
+	public List<AlunoTO> list(int limit, int offset) {
 		
-		String query = "SELECT * FROM Aluno";
-		ArrayList<AlunoTO> listaAlunos = new ArrayList<>();
-		
-		try {
-			
-			Connection con = Conexao.getConexao();
-			PreparedStatement pstm = con.prepareStatement(query);
-			ResultSet res = pstm.executeQuery();
-			
-			while(res.next()) {
-				AlunoTO aluno = new AlunoTO();
-				aluno.setId(res.getInt("id"));
-				aluno.setNome(res.getString("nome"));
-				aluno.setCpf(res.getString("cpf"));
-				aluno.setDataNascimento(res.getDate("datanascimento").toLocalDate());
-				aluno.setPeso(res.getDouble("peso"));
-				aluno.setAltura(res.getDouble("altura"));
-				
-				listaAlunos.add(aluno);
-			}
-			con.close();
-			pstm.close();
-			res.close();
-			
-		}catch(SQLException e) {
-			throw new RuntimeException(e.getMessage());
-		}
-		return listaAlunos;
+		String query = "SELECT * FROM Aluno LIMIT ? OFFSET ?";
+	    ArrayList<AlunoTO> listaAlunos = new ArrayList<>();
+
+	    try {
+	        Connection con = Conexao.getConexao();
+	        PreparedStatement pstm = con.prepareStatement(query);
+
+	        // Definindo os valores para limit e offset no PreparedStatement
+	        pstm.setInt(1, limit);
+	        pstm.setInt(2, offset);
+
+	        ResultSet res = pstm.executeQuery();
+
+	        while (res.next()) {
+	            AlunoTO aluno = new AlunoTO();
+	            aluno.setId(res.getInt("id"));
+	            aluno.setNome(res.getString("nome"));
+	            aluno.setCpf(res.getString("cpf"));
+	            aluno.setDataNascimento(res.getDate("datanascimento").toLocalDate());
+	            aluno.setPeso(res.getDouble("peso"));
+	            aluno.setAltura(res.getDouble("altura"));
+
+	            listaAlunos.add(aluno);
+	        }
+
+	        // Fechando recursos na ordem correta
+	        res.close();
+	        pstm.close();
+	        con.close();
+	    } catch (SQLException e) {
+	        throw new RuntimeException(e.getMessage());
+	    }
+	    return listaAlunos;
+	
 	}
-    }
+}

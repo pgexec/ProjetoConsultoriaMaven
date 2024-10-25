@@ -1,5 +1,6 @@
 package repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import DAOs.alunoDAO;
@@ -74,15 +75,28 @@ public class Repository implements CrudRepository<Aluno>{
 		
 		AlunoTO alunoTO = new AlunoTO();
 		TreinoTO treinoTO =new TreinoTO();
+		Treino treino = aluno.getTreino();
 		
 		alunoTO.setNome(aluno.getNome());
 		alunoTO.setCpf(aluno.getCpf());
 		alunoTO.setDataNascimento(aluno.getDataNascimento());
 		alunoTO.setPeso(aluno.getPeso());
 		alunoTO.setAltura(aluno.getAltura());
-
 		
+		treinoTO.setId(treino.getId());
+		treinoTO.setIdAluno(alunoTO.getId());
+		treinoTO.setDescricao(treino.getDescricao());
+		treinoTO.setData(treino.getData());
+		treinoTO.setTreinoTipo(treino.getTipoTreino());
 		
+		boolean alunoAtualizado = alunoDAO.update(alunoTO);
+		if(!alunoAtualizado) {
+			return false;
+		}
+		boolean treinoAtualizado = treinoDAO.update(treinoTO);
+		if(!treinoAtualizado) {
+			return false;
+		}
 		
 		return true;
 	}
@@ -128,30 +142,35 @@ public class Repository implements CrudRepository<Aluno>{
 	}
 
 	@Override
-	public List<Aluno> list() {
+	public List<Aluno> list(int limit, int offset) {
 		
+		List<Aluno> listaAluno = new ArrayList<>();
 		
-		List<Aluno> listaAluno = null; 
-		List<AlunoTO> listaAlunosTO = alunoDAO.list();
-		List<TreinoTO> listaTreinoTO = treinoDAO.list();
-		for(int i = 0; i < listaAlunosTO.size(); i++) {
-			if(listaAlunosTO.get(i).getId() == listaTreinoTO.get(i).getIdAluno()) {
+		List<AlunoTO> listaAlunosTO = alunoDAO.list(limit,offset);
+		List<TreinoTO> listaTreinoTO = treinoDAO.list(limit,offset);
+		
+		for(AlunoTO alunoTO : listaAlunosTO) {
+			for(TreinoTO treinoTO : listaTreinoTO) {
+				if(alunoTO.getId() == treinoTO.getIdAluno()) {
+					
+					Aluno aluno = new Aluno();
+					Treino treino = new Treino();
+					
+					aluno.setNome(alunoTO.getNome());
+					aluno.setCpf(alunoTO.getCpf());
+					aluno.setDataNascimento(alunoTO.getDataNascimento());
+					aluno.setPeso(alunoTO.getPeso());
+					aluno.setAltura(alunoTO.getAltura());
+					
+					treino.setId(treinoTO.getId());
+					treino.setDescricao(treinoTO.getDescricao());
+					treino.setData(treinoTO.getData());
+					treino.setTreinoTipo(treinoTO.getTipoTreino());
 				
-				Aluno aluno = new Aluno();
-				Treino treino = new Treino();
-				aluno.setNome(listaAlunosTO.get(i).getNome());
-				aluno.setCpf(listaAlunosTO.get(i).getCpf());
-				aluno.setDataNascimento(listaAlunosTO.get(i).getDataNascimento());
-				aluno.setPeso(listaAlunosTO.get(i).getPeso());
-				aluno.setAltura(listaAlunosTO.get(i).getAltura());
-				
-				treino.setId(listaTreinoTO.get(i).getId());
-				treino.setDescricao(listaTreinoTO.get(i).getDescricao());
-				treino.setData(listaTreinoTO.get(i).getData());
-				treino.setTreinoTipo(listaTreinoTO.get(i).getTipoTreino());
-				
-				aluno.setTreino(treino);
-				listaAluno.add(aluno);
+					aluno.setTreino(treino);
+					listaAluno.add(aluno);
+				}
+			
 				
 			}
 		}

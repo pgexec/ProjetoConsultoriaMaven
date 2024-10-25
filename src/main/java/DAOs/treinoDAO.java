@@ -49,7 +49,7 @@ public class treinoDAO implements CrudRepository<TreinoTO> {
 	@Override
 	public boolean update(TreinoTO treino) {
 		
-		String query = "UPDATE Treino SET descricao =? tipo_treino =? WHERE id =?";
+		String query = "UPDATE Treino SET descricao =?, tipo_treino =? WHERE id =?";
 		try(Connection con = Conexao.getConexao();
 			PreparedStatement pstm = con.prepareStatement(query);) {
 			
@@ -110,36 +110,39 @@ public class treinoDAO implements CrudRepository<TreinoTO> {
 	}
 
 	@Override
-	public List<TreinoTO> list() {
+	public List<TreinoTO> list(int limit,int offset) {
 		
-		String query = "SELECT * FROM Treino";
-		ArrayList<TreinoTO> lista = new ArrayList<>();
-		
-		try(Connection con = Conexao.getConexao();
-			PreparedStatement pstm = con.prepareStatement(query);
-			ResultSet result = pstm.executeQuery();) {
-			
-			while(result.next()) {
-				TreinoTO treino = new TreinoTO();
-				treino.setId(result.getInt("id"));
-				treino.setIdAluno(result.getInt("id_aluno"));
-				treino.setDescricao(result.getString("descricao"));
-				treino.setData(result.getDate("data").toLocalDate());
-				String tipoTreinoStr = result.getString("tipo_treino");
-				TipoTreino tipoTreino = TipoTreino.valueOf(tipoTreinoStr);
-				treino.setTreinoTipo(tipoTreino);
-				lista.add(treino);
-			}
-			
-			con.close();
-			pstm.close();
-			result.close();
-			       
-		}catch(SQLException e) {
-			throw new RuntimeException(e.getMessage());
-		}
-				
-		return lista;
+		String query = "SELECT * FROM Treino LIMIT ? OFFSET ?";
+	    ArrayList<TreinoTO> lista = new ArrayList<>();
+
+	    try (Connection con = Conexao.getConexao();
+	         PreparedStatement pstm = con.prepareStatement(query)) {
+
+	        // Definindo os valores de limit e offset no PreparedStatement
+	        pstm.setInt(1, limit);
+	        pstm.setInt(2, offset);
+
+	        try (ResultSet result = pstm.executeQuery()) {
+	            while (result.next()) {
+	                TreinoTO treino = new TreinoTO();
+	                treino.setId(result.getInt("id"));
+	                treino.setIdAluno(result.getInt("aluno_id"));
+	                treino.setDescricao(result.getString("descricao"));
+	                treino.setData(result.getDate("data").toLocalDate());
+
+	                // Convertendo a string para enum TipoTreino
+	                String tipoTreinoStr = result.getString("tipo_treino");
+	                TipoTreino tipoTreino = TipoTreino.valueOf(tipoTreinoStr);
+	                treino.setTreinoTipo(tipoTreino);
+
+	                lista.add(treino);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        throw new RuntimeException(e.getMessage());
+	    }
+
+	    return lista;
 	}
 	
 	public TreinoTO buscarTreinoPorAlunoId(int idAluno) {
