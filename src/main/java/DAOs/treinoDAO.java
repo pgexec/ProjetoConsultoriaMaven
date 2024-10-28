@@ -17,47 +17,61 @@ public class treinoDAO implements CrudRepository<TreinoTO> {
 
 	@Override
 	public boolean insert(TreinoTO treino) {
-		
-		String query = "INSERT INTO treino (descricao, data, aluno_id, tipo_treino) " +
-                "VALUES ( ?, ?, ?, ?) RETURNING id";
+			
+	String query = "INSERT INTO treino (descricao, data, aluno_id, tipo_treino) " +
+	                "VALUES ( ?, ?, ?, ?) RETURNING id";
+	
+	try (Connection con = Conexao.getConexao();
+	         PreparedStatement pstm = con.prepareStatement(query)) {
 
- try (Connection con = Conexao.getConexao();
-      PreparedStatement pstm = con.prepareStatement(query)) {
+	        // Desativei o auto-commit para controle manual da transação
+	        con.setAutoCommit(false);
 
-     
-     pstm.setString(1, treino.getDescricao());
-     pstm.setDate(2, Date.valueOf(treino.getData()));
-     pstm.setInt(3, treino.getIdAluno());
-     pstm.setString(4, treino.getTipoTreino().name());
+	      
+	        pstm.setString(1, treino.getDescricao());
+	        pstm.setDate(2, Date.valueOf(treino.getData()));
+	        pstm.setInt(3, treino.getIdAluno());
+	        pstm.setString(4, treino.getTipoTreino().name());
 
-     
-     try (ResultSet result = pstm.executeQuery()) {
-         if (result.next()) {
-             int idGerado = result.getInt("id");
-             treino.setId(idGerado);  // Atribui o ID ao objeto TreinoTO
-             System.out.println("Treino inserido com ID: " + idGerado);
-             return true;
-         } else {
-             throw new SQLException("Falha ao recuperar o ID gerado.");
-         }
-     }
- } catch (SQLException e) {
-     throw new RuntimeException("Erro ao inserir treino: " + e.getMessage(), e);
- }
-	}
+	        
+	        try (ResultSet result = pstm.executeQuery()) {
+	        	
+	            if (result.next()) {
+	                int idGerado = result.getInt("id");
+	                treino.setId(idGerado); // Atribui o ID ao objeto TreinoTO
+	          
+	                con.commit();
+	                return true;
+	                
+	            } 
+	            else {
+	                throw new SQLException("Falha ao recuperar o ID gerado.");
+	            }
+	            
+	        }catch (SQLException e) {
+	        	con.rollback();
+	            throw new RuntimeException("Erro ao executar a query: " + e.getMessage(), e);
+	        }
+
+	    } catch (SQLException e) {
+	        throw new RuntimeException("Erro ao inserir treino: " + e.getMessage(), e);
+	    }
+}
 
 	@Override
 	public boolean update(TreinoTO treino) {
 		
 		String query = "UPDATE Treino SET descricao =?, tipo_treino =? WHERE id =?";
+		
 		try(Connection con = Conexao.getConexao();
 			PreparedStatement pstm = con.prepareStatement(query);) {
 			
 			pstm.setString(1,treino.getDescricao());
 			pstm.setString(2,treino.getTipoTreino().name());
 			pstm.setInt(3, treino.getId());
-	
+			pstm.executeUpdate();
 			return true;
+			
 		}catch(SQLException e) {
 			throw new RuntimeException(e.getMessage());
 		}
@@ -67,49 +81,29 @@ public class treinoDAO implements CrudRepository<TreinoTO> {
 	
 	@Override
 	public boolean delete(int id) {
+		
 	    String query = "DELETE FROM Treino WHERE id = ?";
-	    Connection con = null; // Declara a conexão fora do try
+	    
 
-	    try {
-	        // Inicializa a conexão e desabilita o auto-commit
-	        con = Conexao.getConexao();
+	    try(Connection con = Conexao.getConexao();
+	    	PreparedStatement pstm = con.prepareStatement(query);) {
+	        
 	        con.setAutoCommit(false); 
 
-	        try (PreparedStatement pstm = con.prepareStatement(query)) {
-	            pstm.setInt(1, id);
-
-	            int rowsAffected = pstm.executeUpdate();
-	            if (rowsAffected == 0) {
-	                throw new SQLException("Nenhum treino encontrado para deletar com o ID: " + id);
-	            }
-
-	            // Efetiva a transação
-	            con.commit();
-	            System.out.println("Treino deletado com sucesso. ID: " + id);
-	            return true;
+	        pstm.setInt(1, id);
+	        int rowsAffected = pstm.executeUpdate();
+	        if (rowsAffected == 0) {
+	            throw new SQLException("Nenhum treino encontrado para deletar com o ID: " + id);
 	        }
+	     // Efetivei a transação
+            con.commit();
+            System.out.println("Treino deletado com sucesso. ID: " + id);
+            return true;
 
-	    } catch (SQLException e) {
+	    }catch (SQLException e) {
 	        // Realiza rollback em caso de erro
-	            try {
-	                con.rollback();
-	                System.out.println("Rollback realizado devido a erro: " + e.getMessage());
-	            } catch (SQLException rollbackEx) {
-	                throw new RuntimeException("Erro ao realizar rollback: " + rollbackEx.getMessage(), rollbackEx);
-	            }
-	        
 	        throw new RuntimeException("Erro ao deletar treino: " + e.getMessage(), e);
-
-	    } finally {
-	        // Garante que a conexão seja fechada
-	        if (con != null) {
-	            try {
-	                con.close();
-	            } catch (SQLException closeEx) {
-	                System.out.println("Erro ao fechar conexão: " + closeEx.getMessage());
-	            }
-	        }
-	    }
+	    } 
 	}
 
 
