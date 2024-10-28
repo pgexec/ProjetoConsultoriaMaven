@@ -59,7 +59,7 @@
                 </executions>
                 <configuration>
                     <mainClass>application.MainAcad</mainClass> <!-- Classe principal -->
-                    <modulePath>${java.home}/lib</modulePath>
+                    <modulepath>${java.home}/lib</modulepath>
                     <options>
                         <option>--add-modules</option>
                         <option>javafx.controls,javafx.fxml</option>

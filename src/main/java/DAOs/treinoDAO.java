@@ -64,21 +64,55 @@ public class treinoDAO implements CrudRepository<TreinoTO> {
 		
 	}
 
+	
 	@Override
 	public boolean delete(int id) {
-		String query = "DELETE FROM Treino WHERE id = ?";
-		try(Connection con = Conexao.getConexao();
-			PreparedStatement pstm = con.prepareStatement(query);){
-			
-			pstm.setInt(1, id);
-			pstm.executeUpdate();
-			return true;
-			
-		}catch(SQLException e) {
-			throw new RuntimeException(e.getMessage());
-		}
-		
+	    String query = "DELETE FROM Treino WHERE id = ?";
+	    Connection con = null; // Declara a conexão fora do try
+
+	    try {
+	        // Inicializa a conexão e desabilita o auto-commit
+	        con = Conexao.getConexao();
+	        con.setAutoCommit(false); 
+
+	        try (PreparedStatement pstm = con.prepareStatement(query)) {
+	            pstm.setInt(1, id);
+
+	            int rowsAffected = pstm.executeUpdate();
+	            if (rowsAffected == 0) {
+	                throw new SQLException("Nenhum treino encontrado para deletar com o ID: " + id);
+	            }
+
+	            // Efetiva a transação
+	            con.commit();
+	            System.out.println("Treino deletado com sucesso. ID: " + id);
+	            return true;
+	        }
+
+	    } catch (SQLException e) {
+	        // Realiza rollback em caso de erro
+	            try {
+	                con.rollback();
+	                System.out.println("Rollback realizado devido a erro: " + e.getMessage());
+	            } catch (SQLException rollbackEx) {
+	                throw new RuntimeException("Erro ao realizar rollback: " + rollbackEx.getMessage(), rollbackEx);
+	            }
+	        
+	        throw new RuntimeException("Erro ao deletar treino: " + e.getMessage(), e);
+
+	    } finally {
+	        // Garante que a conexão seja fechada
+	        if (con != null) {
+	            try {
+	                con.close();
+	            } catch (SQLException closeEx) {
+	                System.out.println("Erro ao fechar conexão: " + closeEx.getMessage());
+	            }
+	        }
+	    }
 	}
+
+
 
 	@Override
 	public TreinoTO buscarPorId(int id) {
