@@ -141,7 +141,7 @@ public class treinoDAO implements CrudRepository<TreinoTO> {
 	public List<TreinoTO> list(int limit,int offset) {
 		
 		String query = "SELECT * FROM Treino LIMIT ? OFFSET ?";
-	    ArrayList<TreinoTO> lista = new ArrayList<>();
+	    List<TreinoTO> lista = new ArrayList<>();
 
 	    try (Connection con = Conexao.getConexao();
 	         PreparedStatement pstm = con.prepareStatement(query)) {

@@ -126,7 +126,7 @@ public class alunoDAO implements CrudRepository<AlunoTO>{
 	public List<AlunoTO> list(int limit, int offset) {
 		
 		String query = "SELECT * FROM Aluno LIMIT ? OFFSET ?";
-	    ArrayList<AlunoTO> listaAlunos = new ArrayList<>();
+	    List<AlunoTO> listaAlunos = new ArrayList<>();
 
 	    try {
 	        Connection con = Conexao.getConexao();

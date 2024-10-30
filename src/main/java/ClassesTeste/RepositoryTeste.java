@@ -43,6 +43,7 @@ public class RepositoryTeste {
 				System.out.println("NOME do Aluno encontrado: " + aluno.getNome());
 				System.out.println("ID do Aluno encontrado: " + aluno.getId());
 				System.out.println("CPF do Aluno encontrado: " + aluno.getCpf());
+				System.out.println("DATA DE NASCIMENTO do Aluno encontrado: " + aluno.getDataNascimento());
 				System.out.println("PESO do Aluno encontrado: " + aluno.getPeso());
 				System.out.println("ALTURA do Aluno encontrado: " + aluno.getAltura());
 				System.out.println("###############################################");

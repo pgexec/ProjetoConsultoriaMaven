@@ -1,6 +1,7 @@
 package ClassesTeste;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import DAOs.treinoDAO;
 import DTOs.TreinoTO;
@@ -9,15 +10,15 @@ import Enum.TipoTreino;
 
 public class TreinoDAOTest {
 	public static void main(String[] args) {
-		TreinoDAOTest teste = new TreinoDAOTest();
 		
-		 teste.testeInserirTreino();
-	     teste.testeBuscarTreinoPorId();
-	     teste.testeAtualizarTreino();
-	     teste.testeRemoverTreino();
+		
+		 testeInserirTreino();
+	     testeBuscarTreinoPorId();
+	     testeAtualizarTreino();
+	     testeRemoverTreino();
 	}
 	
-	public void testeInserirTreino() {
+	public static void testeInserirTreino() {
 		treinoDAO treinoDAO = new treinoDAO();
 		TreinoTO treino = new TreinoTO();
 		
@@ -32,7 +33,7 @@ public class TreinoDAOTest {
 		}
 	}
 	
-	public void testeBuscarTreinoPorId() {
+	public  static void testeBuscarTreinoPorId() {
 	 treinoDAO dao = new treinoDAO();
         TreinoTO treino = dao.buscarPorId(1);
 
@@ -43,7 +44,7 @@ public class TreinoDAOTest {
         }
 	}
 	
-	public void testeAtualizarTreino() {
+	public static void testeAtualizarTreino() {
 		treinoDAO treinoDAO = new treinoDAO();
         TreinoTO treino = new TreinoTO();
         
@@ -59,7 +60,7 @@ public class TreinoDAOTest {
         }
     }
 	
-	public void testeRemoverTreino() {
+	public static void testeRemoverTreino() {
 		
 		treinoDAO treinoDAO = new treinoDAO();
 
@@ -69,4 +70,22 @@ public class TreinoDAOTest {
             System.out.println("Falha ao remover treino.");
         }
 	 }
+	
+	public static void testeListarTreinos() {
+		treinoDAO treinoDAO = new treinoDAO();
+		List<TreinoTO> treinos = treinoDAO.list(4, 0);
+		
+		if (treinos == null || treinos.isEmpty()) {
+	        System.out.println("Nenhum aluno encontrado ou lista é nula.");
+	        return;
+	    }
+		
+		for(TreinoTO treino : treinos) {
+			System.out.println("ID:"+ treino.getId());
+			System.out.println("DESCRIÇÃO:"+ treino.getDescricao());
+			System.out.println("DATA:"+ treino.getData());
+			System.out.println("ALUNO_ID:"+ treino.getIdAluno());
+			System.out.println("TIPO DO TREINO:"+ treino.getTipoTreino());
+		}
+	}
 }
