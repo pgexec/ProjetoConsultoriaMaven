@@ -30,10 +30,11 @@ public class RepositoryTeste {
 		System.out.println("--------------------------------------------");
 		// Teste 2: Buscar Aluno por ID
 		System.out.println("\nTeste 2: Buscar Aluno por ID");
-		buscarAlunoPorId(repository, 32); // Supondo que o ID do aluno seja 1
+		buscarAlunoPorId(repository, 31); // Supondo que o ID do aluno seja 1
 		System.out.println("--------------------------------------------");
 
 		System.out.println("Teste 3: listar os alunos existentes:");
+		
 		List<Aluno> listados = repository.list(5, 0);
 		if (listados.isEmpty()) {
 			System.out.println("Falha ao listar");
@@ -54,7 +55,7 @@ public class RepositoryTeste {
 		System.out.println("--------------------------------------------");
 		//Teste 3: Teste excluindo Aluno do BD
 		  System.out.println("Teste 4: teste de excluir Aluno"); 
-		  boolean deletado = repository.delete(30);
+		  boolean deletado = repository.delete(33);
 		  if(deletado) {
 			  System.out.println("deletado com Sucesso!");
 		  }else {
@@ -102,7 +103,9 @@ public class RepositoryTeste {
 
 	// Método para Buscar Aluno por ID
 	public static void buscarAlunoPorId(Repository repository, int id) {
+		
 		Aluno aluno = repository.buscarPorId(id);
+		
 		if (aluno != null) {
 			System.out.println("--------------------------------------------");
 			System.out.println("NOME do Aluno encontrado: " + aluno.getNome());

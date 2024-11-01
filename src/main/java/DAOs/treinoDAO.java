@@ -81,29 +81,19 @@ public class treinoDAO implements CrudRepository<TreinoTO> {
 	
 	@Override
 	public boolean delete(int id) {
-		
-	    String query = "DELETE FROM Treino WHERE id = ?";
-	    
 
-	    try(Connection con = Conexao.getConexao();
-	    	PreparedStatement pstm = con.prepareStatement(query);) {
-	        
-	        con.setAutoCommit(false); 
+	    String query = "DELETE FROM Treino WHERE id = ?";
+
+	    try (Connection con = Conexao.getConexao();
+	         PreparedStatement pstm = con.prepareStatement(query)) {
 
 	        pstm.setInt(1, id);
-	        int rowsAffected = pstm.executeUpdate();
-	        if (rowsAffected == 0) {
-	            throw new SQLException("Nenhum treino encontrado para deletar com o ID: " + id);
-	        }
-	     // Efetivei a transação
-            con.commit();
-            System.out.println("Treino deletado com sucesso. ID: " + id);
-            return true;
+	        pstm.executeUpdate();
+	        return true;
 
-	    }catch (SQLException e) {
-	        // Realiza rollback em caso de erro
+	    } catch (SQLException e) {
 	        throw new RuntimeException("Erro ao deletar treino: " + e.getMessage(), e);
-	    } 
+	    }
 	}
 
 
