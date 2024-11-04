@@ -1,11 +1,11 @@
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/DTOs/AlunoTO.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/repository/Repository.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/DAOs/treinoDAO.java
+/home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/controller/Controller.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/ClassesTeste/AlunoDAOTest.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/ClassesTeste/TreinoDAOTest.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/Models/Aluno.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/ClassesTeste/RepositoryTeste.java
-/home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/application/SampleController.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/Enum/TipoTreino.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/conexao/Conexao.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/DAOs/alunoDAO.java
