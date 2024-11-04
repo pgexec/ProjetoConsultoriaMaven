@@ -10,6 +10,15 @@ public class Treino {
 	private LocalDate data;
 	private TipoTreino tipo;
 
+	public Treino(String descricao, LocalDate data, TipoTreino tipo) {
+		setData(data);
+		setDescricao(descricao);
+		setTreinoTipo(tipo);
+	}
+	public Treino() {
+		
+	}
+	
 	public int getId(){
 		return this.id;
 	}

@@ -4,11 +4,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import Enum.TipoTreino;
+import Models.Aluno;
+import Models.Treino;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import repository.Repository;
 
 public class Controller {
 
@@ -59,7 +62,14 @@ public class Controller {
     	LocalDate dataNasc = LocalDate.parse(dataNascimentoTxt,formatoData);
     	Double peso = Double.parseDouble(pesoField.getText());
     	Double altura = Double.parseDouble(alturaField.getText());
+    	
     	String descricao = descricaoTextField.getText();
+    	TipoTreino tipoTreino = tipoTreinoSelected.getValue();
+    	LocalDate dataTreino = LocalDate.now();
+    	Treino treino  = new Treino(descricao,dataTreino,tipoTreino);
+    	Aluno aluno = new Aluno(nome,cpf,dataNasc,peso,altura,treino);
+    	Repository repository = new Repository();
+    	repository.insert(aluno);
     	
     }
     
