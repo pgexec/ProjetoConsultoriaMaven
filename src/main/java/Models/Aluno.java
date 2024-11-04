@@ -66,8 +66,9 @@ public class Aluno {
 	}
 	
 	public void setCpf(String cpf) {
-		if(validarCpf(cpf)) {
-			this.cpf = cpf;
+		String cpfNumeros = cpf.replaceAll("\\D", "");
+		if(validarCpf(cpfNumeros)) {
+			this.cpf = cpfNumeros;
 		}else {
 			throw new IllegalArgumentException("CPF INVÁLIDO");
 		}
@@ -109,21 +110,7 @@ public class Aluno {
 	
 	
 	public boolean validarCpf(String cpf) {
-		String cpfNumeros = cpf.replaceAll("\\D","");
-		if(cpfNumeros.length() != 11) {
-			throw new IllegalArgumentException("Seu cpf está inválido, tamanho errado!");
-		}
-		String cpfFormatado = formatarCpf(cpf);
-		
-		String regex =  "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}";
-		return Pattern.matches(regex, cpfFormatado);
-	}
-	
-	public String formatarCpf(String cpf) {
-		return String.format("%s.%s.%s-%s",cpf.substring(0,3),
-											cpf.substring(3, 6),
-											cpf.substring(6, 9),
-											cpf.substring(9, 11));
+	    return cpf.matches("\\d{11}");
 	}
 	
 	
