@@ -17,13 +17,11 @@ public class Repository implements CrudRepository<Aluno>{
 	private treinoDAO treinoDAO;
 	
 	
-	public Repository(alunoDAO alunoDAO, treinoDAO treinoDAO) {
-        this.alunoDAO = alunoDAO;
-        this.treinoDAO = treinoDAO;
-    }
 	public Repository() {
-		
-	}
+        this.alunoDAO =  new alunoDAO();
+        this.treinoDAO =  new treinoDAO();
+    }
+
 	@Override
 	public boolean insert(Aluno aluno) {
 		

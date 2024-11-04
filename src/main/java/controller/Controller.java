@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import Enum.TipoTreino;
 import Models.Aluno;
 import Models.Treino;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -77,66 +78,74 @@ public class Controller {
     	System.out.println("Descricao: " + aluno.getTreino().getDescricao());
     	System.out.println("Tipo de treino: " + aluno.getTreino().getTipoTreino());
     	System.out.println("Data: : " + aluno.getTreino().getData());
-    	//Repository repository = new Repository();
-    	//repository.insert(aluno);
+    	Repository repository = new Repository();
+    	repository.insert(aluno);
     	
     }
     
     
-    //função para apenas permite números e no formato real, neste caso permitindo ter apenas um ponto 
     private void addNumericValidation(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*\\.?\\d*")) { 
-                textField.setText(oldValue); 
-            }
+            Platform.runLater(() -> {
+                if (!newValue.matches("\\d*\\.?\\d*")) {
+                    textField.setText(oldValue);
+                }
+            });
         });
     }
+
     
-    // Função para formatar e validar a data no formato dd/MM/yyyy enquanto o usuário digita
     private void addDateValidation(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            // Remove caracteres não numéricos
-            String value = newValue.replaceAll("[^\\d]", "");
-            StringBuilder formatted = new StringBuilder();
+            Platform.runLater(() -> {
+                String value = newValue.replaceAll("[^\\d]", "");
+                StringBuilder formatted = new StringBuilder();
 
-            if (value.length() > 8) {
-                textField.setText(oldValue); // Limita a 8 caracteres (ddMMyyyy)
-                return;
-            }
-
-            // Aplica a formatação dd/MM/yyyy
-            for (int i = 0; i < value.length(); i++) {
-                if (i == 2 || i == 4) {
-                    formatted.append("/");
+                if (value.length() > 8) {
+                    textField.setText(oldValue); // Limita a 8 caracteres (ddMMyyyy)
+                    return;
                 }
-                formatted.append(value.charAt(i));
-            }
-            textField.setText(formatted.toString());
+
+                for (int i = 0; i < value.length(); i++) {
+                    if (i == 2 || i == 4) {
+                        formatted.append("/");
+                    }
+                    formatted.append(value.charAt(i));
+                }
+
+                if (!formatted.toString().equals(newValue)) { // Só atualiza se houver diferença
+                    textField.setText(formatted.toString());
+                }
+            });
         });
     }
+
 
     // Função para formatar e validar CPF no formato 000.000.000-00 enquanto o usuário digita
     private void addCpfValidation(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            // Remove caracteres não numéricos
-            String value = newValue.replaceAll("[^\\d]", "");
-            StringBuilder formatted = new StringBuilder();
+            Platform.runLater(() -> {
+                String value = newValue.replaceAll("[^\\d]", "");
+                StringBuilder formatted = new StringBuilder();
 
-            if (value.length() > 11) {
-                textField.setText(oldValue); // Limita a 11 caracteres (apenas números)
-                return;
-            }
-
-            // Aplica a formatação 000.000.000-00
-            for (int i = 0; i < value.length(); i++) {
-                if (i == 3 || i == 6) {
-                    formatted.append(".");
-                } else if (i == 9) {
-                    formatted.append("-");
+                if (value.length() > 11) {
+                    textField.setText(oldValue); // Limita a 11 caracteres
+                    return;
                 }
-                formatted.append(value.charAt(i));
-            }
-            textField.setText(formatted.toString());
+
+                for (int i = 0; i < value.length(); i++) {
+                    if (i == 3 || i == 6) {
+                        formatted.append(".");
+                    } else if (i == 9) {
+                        formatted.append("-");
+                    }
+                    formatted.append(value.charAt(i));
+                }
+
+                if (!formatted.toString().equals(newValue)) { // Só atualiza se houver diferença
+                    textField.setText(formatted.toString());
+                }
+            });
         });
     }
     
