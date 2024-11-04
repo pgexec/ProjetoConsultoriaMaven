@@ -27,7 +27,7 @@
       <Label layoutX="348.0" layoutY="360.0" text="Descriçao:" />
       <ComboBox fx:id="tipoTreinoSelected" layoutX="135.0" layoutY="356.0" prefWidth="150.0" />
       <Label layoutX="34.0" layoutY="360.0" text="Tipo do treino:" />
-      <Button layoutX="344.0" layoutY="604.0" mnemonicParsing="false" text="CADASTRAR" />
+      <Button layoutX="344.0" layoutY="604.0" mnemonicParsing="false" onAction="#handleCadastro" text="CADASTRAR" />
       <Label layoutX="56.0" layoutY="40.0" text="Adicione as informaçoes do Aluno em questao abaixo:">
          <font>
             <Font name="System Bold" size="18.0" />
