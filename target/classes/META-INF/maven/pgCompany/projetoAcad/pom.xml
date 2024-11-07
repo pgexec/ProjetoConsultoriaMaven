@@ -58,7 +58,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>application.MainAcad</mainClass> <!-- Classe principal -->
+                    <mainClass>application.Main</mainClass> <!-- Classe principal -->
                     <options>
                         <option>--add-modules</option>
                         <option>javafx.controls,javafx.fxml</option>

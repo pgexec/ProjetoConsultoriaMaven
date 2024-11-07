@@ -3,8 +3,7 @@ package ClassesTeste;
 import java.time.LocalDate;
 import java.util.List;
 
-import DAOs.alunoDAO;
-import DAOs.treinoDAO;
+
 import Enum.TipoTreino;
 import Models.Aluno;
 import Models.Treino;
@@ -13,10 +12,9 @@ import repository.Repository;
 public class RepositoryTeste {
 	public static void main(String[] args) {
 
-		alunoDAO alunoDAO = new alunoDAO();
-		treinoDAO treinoDAO = new treinoDAO();
+	
 
-		Repository repository = new Repository(alunoDAO, treinoDAO);
+		Repository repository = new Repository();
 
 		// Teste 1: Inserção de Aluno com Treino
 		/*

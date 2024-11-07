@@ -1,7 +1,7 @@
 package Models;
 
 import java.time.LocalDate;
-import java.util.regex.Pattern;
+
 
 public class Aluno {
 	int id;
