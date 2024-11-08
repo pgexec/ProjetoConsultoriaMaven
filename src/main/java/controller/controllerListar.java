@@ -11,6 +11,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,6 +29,9 @@ public class controllerListar implements Initializable {
 
 	    @FXML
 	    private Button btexcluir;
+	    
+	    @FXML
+	    private TableColumn <Aluno, Integer> columnID;
 	    
 	    @FXML
 	    private TableColumn<Aluno, String> columnNome;
@@ -65,6 +70,7 @@ public class controllerListar implements Initializable {
     	
     	ObservableList<Aluno> alunos = FXCollections.observableArrayList(repository.list(5, 0));
     	
+    	columnID.setCellValueFactory(new PropertyValueFactory<>("id"));
     	columnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
     	columnCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
     	columnPeso.setCellValueFactory(new PropertyValueFactory<>("peso"));
@@ -82,12 +88,38 @@ public class controllerListar implements Initializable {
     
     	tableViewAlunos.setItems(alunos);
      }
+    
+    public void excluirAluno() {
+    
+    	Repository repository = new Repository();
+    	
+    	Aluno alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
+    	
+    	if(alunoSelecionado != null) {
+    		
+    		repository.delete(alunoSelecionado.getId());
+    		tableViewAlunos.getItems().remove(alunoSelecionado);
+    		Alert confirmacao = new Alert(AlertType.INFORMATION);
+            confirmacao.setTitle("Confirmação de Exclusão");
+            confirmacao.setHeaderText("Exclusão Realizada com Sucesso");
+            confirmacao.setContentText("O aluno " + alunoSelecionado.getNome() + " foi excluído com sucesso.");
+            confirmacao.showAndWait();
+            
+    	}else {
+    		 Alert alerta = new Alert(AlertType.ERROR);
+    	     alerta.setTitle("Erro de Exclusão");
+    	     alerta.setHeaderText("Nenhum Aluno Selecionado");
+    	     alerta.setContentText("Por favor, selecione um aluno na tabela antes de clicar em Excluir.");
+    	     alerta.showAndWait();
+    	}
+    }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		System.out.println("Inicializando a tabela");
 		this.listarAlunos();
+		
 		
 	}
 }
