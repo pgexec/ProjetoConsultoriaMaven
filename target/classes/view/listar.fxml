@@ -36,6 +36,6 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button layoutX="45.0" layoutY="715.0" mnemonicParsing="false" text="VOLTAR" />
+      <Button fx:id="btVoltar" layoutX="45.0" layoutY="715.0" mnemonicParsing="false" onAction="#voltarMenu" text="VOLTAR" />
    </children>
 </Pane>

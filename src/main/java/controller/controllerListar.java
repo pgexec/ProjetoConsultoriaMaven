@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import Models.Aluno;
+import application.Main;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import repository.Repository;
 
 public class controllerListar implements Initializable {
@@ -29,6 +31,10 @@ public class controllerListar implements Initializable {
 
 	    @FXML
 	    private Button btexcluir;
+
+	    @FXML
+	    private Button btVoltar;
+	    
 	    
 	    @FXML
 	    private TableColumn <Aluno, Integer> columnID;
@@ -113,6 +119,22 @@ public class controllerListar implements Initializable {
     	     alerta.showAndWait();
     	}
     }
+    
+    public void voltarMenu() {
+    	
+    	//pegando tela atual (tela cadastro)
+    	Stage stageAtual = (Stage) btVoltar.getScene().getWindow();
+    	stageAtual.close(); //fechando ela
+    	
+    	Main main = new Main();
+
+    	try {
+    		main.start(new Stage());
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	} 	
+    }
+    
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

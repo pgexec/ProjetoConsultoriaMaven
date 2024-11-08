@@ -70,9 +70,7 @@ public class controllerCadastro{
     		main.start(new Stage());
     	}catch(Exception e) {
     		e.printStackTrace();
-    	}
-    	    	
-    	
+    	} 	
     }
     
     
