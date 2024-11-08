@@ -27,7 +27,7 @@
       <Label layoutX="400.0" layoutY="360.0" text="Descriçao:" />
       <ComboBox fx:id="tipoTreinoSelected" layoutX="141.0" layoutY="356.0" prefHeight="24.0" prefWidth="203.0" promptText="escolha o tipo de treino" />
       <Label layoutX="40.0" layoutY="360.0" text="Tipo do treino:" />
-      <Button layoutX="303.0" layoutY="615.0" mnemonicParsing="false" onAction="#handleCadastro" text="CADASTRAR">
+      <Button layoutX="294.0" layoutY="615.0" mnemonicParsing="false" onAction="#handleCadastro" text="CADASTRAR">
          <font>
             <Font size="16.0" />
          </font></Button>

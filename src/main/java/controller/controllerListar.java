@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -11,7 +12,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -20,6 +24,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import repository.Repository;
+
 
 public class controllerListar implements Initializable {
 
@@ -118,6 +123,44 @@ public class controllerListar implements Initializable {
     	     alerta.setContentText("Por favor, selecione um aluno na tabela antes de clicar em Excluir.");
     	     alerta.showAndWait();
     	}
+    }
+    
+    public void alterar() {
+    	
+    Aluno alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
+
+    if (alunoSelecionado != null) {
+        try {
+            // Carrega o arquivo FXML da tela alterar
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/telas/alterar.fxml"));
+            Parent root = loader.load();
+            
+            // controlador associado ao FXML da tela alterar
+            controllerAlterar controller = loader.getController();
+            
+            // Passa o alunoSelecionado para o controlador da tela alterar
+            controller.setAluno(alunoSelecionado);
+
+            // Cria e exibe uma nova janela (Stage) para a tela alterar
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Alterar Aluno");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alerta = new Alert(AlertType.ERROR);
+            alerta.setTitle("Erro ao Carregar a Tela");
+            alerta.setHeaderText("Não foi possível carregar a tela de alteração.");
+            alerta.setContentText("Por favor, verifique o arquivo alterar.fxml e tente novamente.");
+            alerta.showAndWait();
+        }
+    } else {
+        Alert alerta = new Alert(AlertType.WARNING);
+        alerta.setTitle("Seleção Necessária");
+        alerta.setHeaderText("Nenhum Aluno Selecionado");
+        alerta.setContentText("Por favor, selecione um aluno na tabela para alterar.");
+        alerta.showAndWait();
+    }
     }
     
     public void voltarMenu() {

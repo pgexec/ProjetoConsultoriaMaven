@@ -2,8 +2,10 @@
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/controller/controllerListar.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/repository/Repository.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/DAOs/treinoDAO.java
+/home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/telas/alterar.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/ClassesTeste/AlunoDAOTest.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/ClassesTeste/TreinoDAOTest.java
+/home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/controller/controllerAlterar.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/telas/cadastrar.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/Models/Aluno.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/ClassesTeste/RepositoryTeste.java

@@ -50,8 +50,9 @@ public class controllerCadastro{
     private void initialize() {
     	
         // Limita altura e peso para apenas números e ponto decimal
-        addNumericValidation(alturaField);
-        addNumericValidation(pesoField);
+        addAlturaMask(alturaField);
+        addPesoMask(pesoField);
+        //limita o cpf e faz a formatação do cpf
         addCpfValidation(cpfField);
         // Limita a data de nascimento para o formato dd/mm/yyyy
         addDateValidation(dataNascField);
@@ -105,15 +106,32 @@ public class controllerCadastro{
     }
     
     
-    private void addNumericValidation(TextField textField) {
+    private void addAlturaMask(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            Platform.runLater(() -> {
-                if (!newValue.matches("\\d*\\.?\\d*")) {
-                    textField.setText(oldValue);
-                }
-            });
+            // Remove todos os caracteres que não são números
+            String cleanValue = newValue.replaceAll("[^\\d]", "");
+
+            // Limita a entrada a no máximo 3 dígitos
+            if (cleanValue.length() > 3) {
+                cleanValue = cleanValue.substring(0, 3);
+            }
+
+            // Aplica a máscara "N.NN"
+            String formattedValue;
+            if (cleanValue.length() >= 2) {
+                formattedValue = cleanValue.substring(0, 1) + "." + cleanValue.substring(1);
+            } else {
+                formattedValue = cleanValue;
+            }
+
+            // Atualiza o campo de texto com o valor formatado
+            textField.setText(formattedValue);
+
+            // Coloca o cursor no final do texto
+            Platform.runLater(() -> textField.positionCaret(formattedValue.length()));
         });
     }
+
 
     //função que faz a formatação da data para ddMMyyyy enquanto o usuário digita e faz a validação
     private void addDateValidation(TextField textField) {
@@ -147,6 +165,33 @@ public class controllerCadastro{
             });
         });
     }
+    
+    private void addPesoMask(TextField textField) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Remove todos os caracteres que não são números
+            String cleanValue = newValue.replaceAll("[^\\d]", "");
+
+            // Limita a entrada a no máximo 4 dígitos
+            if (cleanValue.length() > 4) {
+                cleanValue = cleanValue.substring(0, 4);
+            }
+
+            // Aplica a máscara "NNN.N"
+            String formattedValue;
+            if (cleanValue.length() >= 4) {
+                formattedValue = cleanValue.substring(0, 3) + "." + cleanValue.substring(3);
+            } else {
+                formattedValue = cleanValue;
+            }
+
+            // Atualiza o campo de texto com o valor formatado
+            textField.setText(formattedValue);
+
+            // Coloca o cursor no final do texto
+            Platform.runLater(() -> textField.positionCaret(formattedValue.length()));
+        });
+    }
+
 
 
 

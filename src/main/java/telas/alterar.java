@@ -6,13 +6,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class listar extends Application{
+public class alterar extends Application{
 	
+
 	@Override
-	public void start (Stage primaryStage) throws Exception {
+	public void start(Stage primaryStage) throws Exception {
 		
-		
-		Parent root = FXMLLoader.load(getClass().getResource("/view/listar.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/view/alterar.fxml"));
 		Scene scene = new Scene(root);//coloca o FXML em uma cena
 		primaryStage.setTitle("listar alunos");
 		primaryStage.centerOnScreen();
@@ -20,4 +20,10 @@ public class listar extends Application{
 		primaryStage.show();
 		
 	}
+
+	
+	
+	
+	
+	
 }
