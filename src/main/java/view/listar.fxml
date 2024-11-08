@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="1138.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerListar">
+   <children>
+      <TableView layoutY="6.0" prefHeight="674.0" prefWidth="1138.0">
+        <columns>
+          <TableColumn fx:id="columnNome" prefWidth="142.0" text="NOME" />
+            <TableColumn fx:id="columnCpf" prefWidth="142.0" text="CPF" />
+            <TableColumn fx:id="columnData" prefWidth="174.0" text="DATA DE NASCIMENTO" />
+            <TableColumn fx:id="columnPeso" prefWidth="110.0" text="PESO" />
+            <TableColumn fx:id="columnAltura" prefWidth="142.0" text="ALTURA" />
+            <TableColumn prefWidth="142.0" text="nome" />
+        </columns>
+      </TableView>
+      <Button fx:id="btexcluir" layoutX="-90.0" layoutY="381.0" mnemonicParsing="false" text="EXCLUIR" />
+   </children>
+</Pane>
