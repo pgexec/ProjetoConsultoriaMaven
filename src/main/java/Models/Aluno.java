@@ -144,6 +144,11 @@ public class Aluno {
     		return "Você está no peso ideal";
     	}
     }
+	@Override
+	public String toString() {
+		return "Aluno [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", dataNascimento=" + dataNascimento + ", peso="
+				+ peso + ", altura=" + altura + ", treino=" + treino + "]";
+	}
 
 
 }

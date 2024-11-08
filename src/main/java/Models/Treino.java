@@ -70,6 +70,10 @@ public class Treino {
 		}
 		this.tipo = tipoTreino;
 	}
+	@Override
+	public String toString() {
+		return "Treino [id=" + id + ", descricao=" + descricao + ", data=" + data + ", tipo=" + tipo + "]";
+	}
 	
 	
 }

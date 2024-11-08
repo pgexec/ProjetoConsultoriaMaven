@@ -10,11 +10,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import telas.cadastrar;
+import telas.listar;
 
 public class ControllerMain implements Initializable {
 
     @FXML
-    private Button brListar;
+    private Button btListar;
 
     @FXML
     private Button btSair;
@@ -28,6 +29,7 @@ public class ControllerMain implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
+		
 		btcadastro.setOnMouseClicked((MouseEvent e)-> {
 			
 			//pegando Stage atual no caso a tela Main
@@ -39,6 +41,25 @@ public class ControllerMain implements Initializable {
 			try {
 				
 				tlCadastro.start(new Stage());
+				
+			} catch (Exception e1) {
+				
+				e1.printStackTrace();
+			}
+		});
+		
+		
+		btListar.setOnMouseClicked((MouseEvent e)-> {
+			
+			//pegando Stage atual no caso a tela Main
+			Stage stageAtual = (Stage) paneMain.getScene().getWindow();
+			stageAtual.close(); //fechando ela
+			
+			//criação da tela listar
+			listar tlListar = new listar();
+			try {
+				
+				tlListar.start(new Stage());
 				
 			} catch (Exception e1) {
 				

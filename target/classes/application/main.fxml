@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane id="paneMain" fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="893.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
    <children>
       <Label layoutX="368.0" layoutY="189.0" text="BEM - VINDO ">
@@ -14,7 +13,7 @@
          </font>
       </Label>
       <Button id="btCadastro" fx:id="btcadastro" layoutX="384.0" layoutY="270.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="125.0" text="CADASTRAR" textAlignment="CENTER" />
-      <Button id="btListar" fx:id="brListar" layoutX="384.0" layoutY="327.0" mnemonicParsing="false" text="LISTAR TREINOS" textAlignment="CENTER" />
+      <Button id="btListar" fx:id="btListar" layoutX="384.0" layoutY="327.0" mnemonicParsing="false" text="LISTAR ALUNOS" textAlignment="CENTER" />
       <Button id="btSair" layoutX="384.0" layoutY="380.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="125.0" text="SAIR" />
    </children>
 </Pane>

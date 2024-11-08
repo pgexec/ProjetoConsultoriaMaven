@@ -4,20 +4,37 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="743.0" prefWidth="1138.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerListar">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="749.0" prefWidth="1214.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerListar">
    <children>
-      <TableView layoutY="6.0" prefHeight="674.0" prefWidth="1138.0">
+      <TableView fx:id="tableViewAlunos" prefHeight="680.0" prefWidth="1214.0">
         <columns>
           <TableColumn fx:id="columnNome" prefWidth="142.0" text="NOME" />
-            <TableColumn fx:id="columnCpf" prefWidth="142.0" text="CPF" />
-            <TableColumn fx:id="columnData" prefWidth="174.0" text="DATA DE NASCIMENTO" />
-            <TableColumn fx:id="columnPeso" prefWidth="110.0" text="PESO" />
-            <TableColumn fx:id="columnAltura" prefWidth="142.0" text="ALTURA" />
-            <TableColumn prefWidth="142.0" text="nome" />
+          <TableColumn fx:id="columnCpf" prefWidth="142.0" text="CPF" />
+          <TableColumn fx:id="columnData" prefWidth="174.0" text="DATA DE NASCIMENTO" />
+          <TableColumn fx:id="columnPeso" prefWidth="117.0" text="PESO" />
+          <TableColumn fx:id="columnAltura" prefWidth="135.0" text="ALTURA" />
+          <TableColumn fx:id="columnDescricao" prefWidth="196.0" text="DESCRICAO DO TREINO" />
+          <TableColumn fx:id="columnDataInicio" prefWidth="135.0" text="DATA DE INICIO " />
+          <TableColumn fx:id="columnTipoTreino" prefWidth="135.0" text="TIPO DE TREINO" />
         </columns>
       </TableView>
       <Button fx:id="btexcluir" layoutX="-90.0" layoutY="381.0" mnemonicParsing="false" text="EXCLUIR" />
+      <Button layoutX="46.0" layoutY="691.0" mnemonicParsing="false" text="EXCLUIR">
+         <font>
+            <Font name="Khmer OS System" size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="btAlterar" layoutX="559.0" layoutY="697.0" mnemonicParsing="false" text="ALTERAR" textAlignment="CENTER">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <Button fx:id="btVisualizar" layoutX="1058.0" layoutY="697.0" mnemonicParsing="false" text="VISUALIZAR">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
    </children>
 </Pane>
