@@ -6,11 +6,13 @@ import java.util.ResourceBundle;
 
 import Enum.TipoTreino;
 import Models.Aluno;
+import Models.Treino;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import repository.Repository;
@@ -20,6 +22,13 @@ public class controllerAlterar implements Initializable{
 	
 	@FXML
 	private TextField dataNascField;
+	
+	@FXML
+    private TextField dataInicioField;
+	
+
+    @FXML
+    private TextArea descricaoField;
 	
 	@FXML
     private Button btAlterar;
@@ -52,7 +61,7 @@ public class controllerAlterar implements Initializable{
 		this.addCpfValidation(cpfField);
 		this.addDateValidation(dataNascField);
 		this.addPesoMask(pesoField);
-		
+		this.addDateValidation(dataInicioField);
 	}
 	
 	public void cancelar() {
@@ -73,7 +82,9 @@ public class controllerAlterar implements Initializable{
 		cpfField.setText(aluno.getCpf());
 		pesoField.setText(aluno.getPeso().toString());
 		alturaField.setText(aluno.getAltura().toString());
-		
+		dataInicioField.setText(aluno.getTreino().getData().toString());
+		dataNascField.setText(aluno.getDataNascimento().toString());
+		descricaoField.setText(aluno.getTreino().getDescricao().toString());
 	}
 	
 	public void salvarAlteracoes() {
