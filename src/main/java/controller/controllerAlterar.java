@@ -61,7 +61,8 @@ public class controllerAlterar implements Initializable{
 	}
 	
 	public void alterar() {
-		
+		Repository repository = new Repository();
+		repository.update(alunoAtual);
 	}
 
 	public void setAluno(Aluno aluno) {

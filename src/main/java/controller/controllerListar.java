@@ -125,14 +125,14 @@ public class controllerListar implements Initializable {
     	}
     }
     
-    public void alterar() {
+    public void alterarAluno() {
     	
     Aluno alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
 
     if (alunoSelecionado != null) {
         try {
             // Carrega o arquivo FXML da tela alterar
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/telas/alterar.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/alterar.fxml"));
             Parent root = loader.load();
             
             // controlador associado ao FXML da tela alterar
@@ -146,7 +146,9 @@ public class controllerListar implements Initializable {
             stage.setScene(new Scene(root));
             stage.setTitle("Alterar Aluno");
             stage.show();
+            
         } catch (IOException e) {
+        	
             e.printStackTrace();
             Alert alerta = new Alert(AlertType.ERROR);
             alerta.setTitle("Erro ao Carregar a Tela");

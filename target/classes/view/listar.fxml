@@ -26,7 +26,7 @@
             <Font size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btAlterar" layoutX="1141.0" layoutY="712.0" mnemonicParsing="false" text="ALTERAR" textAlignment="CENTER">
+      <Button fx:id="btAlterar" layoutX="1141.0" layoutY="712.0" mnemonicParsing="false" onAction="#alterarAluno" text="ALTERAR" textAlignment="CENTER">
          <font>
             <Font size="15.0" />
          </font>
