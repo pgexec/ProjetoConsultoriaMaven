@@ -56,6 +56,8 @@ public class controllerCadastro{
         addCpfValidation(cpfField);
         // Limita a data de nascimento para o formato dd/mm/yyyy
         addDateValidation(dataNascField);
+        tipoTreinoSelected.getItems().addAll(TipoTreino.values());
+
         
     }
     
@@ -93,13 +95,7 @@ public class controllerCadastro{
     	LocalDate dataTreino = LocalDate.now();
     	Treino treino  = new Treino(descricao,dataTreino,tipoTreino);
     	Aluno aluno = new Aluno(nome,cpf,dataNasc,peso,altura,treino);
-    	System.out.println("nome:" + aluno.getNome());
-    	System.out.println("cpf: " + aluno.getCpf());
-    	System.out.println("Peso:" + aluno.getPeso());
-    	System.out.println("Altura: " + aluno.getAltura());
-    	System.out.println("Descricao: " + aluno.getTreino().getDescricao());
-    	System.out.println("Tipo de treino: " + aluno.getTreino().getTipoTreino());
-    	System.out.println("Data: : " + aluno.getTreino().getData());
+    	
     	Repository repository = new Repository();
     	repository.insert(aluno);
     	

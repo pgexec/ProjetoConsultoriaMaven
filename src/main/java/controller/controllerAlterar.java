@@ -2,6 +2,7 @@ package controller;
 
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import Enum.TipoTreino;
@@ -62,6 +63,8 @@ public class controllerAlterar implements Initializable{
 		this.addDateValidation(dataNascField);
 		this.addPesoMask(pesoField);
 		this.addDateValidation(dataInicioField);
+		
+		tipoTreinoSelected.getItems().addAll(TipoTreino.values());
 	}
 	
 	public void cancelar() {
@@ -94,11 +97,15 @@ public class controllerAlterar implements Initializable{
         alunoAtual.setPeso(Double.parseDouble(pesoField.getText()));
         alunoAtual.setAltura(Double.parseDouble(alturaField.getText()));
         
+        String descricao = descricaoField.getText();
+    	TipoTreino tipoTreino = tipoTreinoSelected.getValue();
+    	LocalDate dataTreino = LocalDate.now();
+    	Treino treino  = new Treino(descricao,dataTreino,tipoTreino);
+       alunoAtual.setTreino(treino);
+        
         // Atualize os dados do aluno no banco de dados
         Repository repository = new Repository();
         repository.update(alunoAtual);
-        
-       
     }
 	
 	private void addAlturaMask(TextField textField) {

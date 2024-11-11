@@ -10,7 +10,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="485.0" prefWidth="790.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerAlterar">
    <children>
-      <Button fx:id="btAlterar" layoutX="676.0" layoutY="432.0" mnemonicParsing="false" text="Alterar">
+      <Button fx:id="btAlterar" layoutX="676.0" layoutY="432.0" mnemonicParsing="false" onAction="#salvarAlteracoes" text="Alterar">
          <font>
             <Font size="16.0" />
          </font></Button>
