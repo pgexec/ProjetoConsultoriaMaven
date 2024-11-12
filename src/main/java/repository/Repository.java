@@ -85,7 +85,7 @@ public class Repository implements CrudRepository<Aluno>{
 		alunoTO.setAltura(aluno.getAltura());
 		
 		treinoTO.setId(treino.getId());
-		treinoTO.setIdAluno(alunoTO.getId());
+		treinoTO.setIdAluno(aluno.getId());
 		treinoTO.setDescricao(treino.getDescricao());
 		treinoTO.setData(treino.getData());
 		treinoTO.setTreinoTipo(treino.getTipoTreino());

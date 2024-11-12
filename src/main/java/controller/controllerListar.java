@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import Models.Aluno;
 import application.Main;
+
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -63,6 +64,9 @@ public class controllerListar implements Initializable {
 	    private TableView<Aluno> tableViewAlunos;
 	    
 	    @FXML
+	    private TableColumn<Aluno, Integer> columnIdTreino;
+	    
+	    @FXML
 	    private TableColumn<Aluno,String> columnTipoTreino;
 	    
 	    @FXML
@@ -88,7 +92,9 @@ public class controllerListar implements Initializable {
         columnAltura.setCellValueFactory(new PropertyValueFactory<>("altura"));
         columnData.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDataNascimento()));
 
-      
+        columnIdTreino.setCellValueFactory(data -> { Integer idTreino = data.getValue().getTreino() != null ? data.getValue().getTreino().getId() : null;
+            return new SimpleObjectProperty<>(idTreino);
+        });
         columnDescricao.setCellValueFactory(data ->new SimpleStringProperty(data.getValue().getTreino() != null ? data.getValue().getTreino().getDescricao() : ""));
         
         columnDataInicio.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getTreino() != null ? data.getValue().getTreino().getData() : null));
@@ -110,6 +116,7 @@ public class controllerListar implements Initializable {
     		
     		repository.delete(alunoSelecionado.getId());
     		tableViewAlunos.getItems().remove(alunoSelecionado);
+    		
     		Alert confirmacao = new Alert(AlertType.INFORMATION);
             confirmacao.setTitle("Confirmação de Exclusão");
             confirmacao.setHeaderText("Exclusão Realizada com Sucesso");
@@ -117,6 +124,7 @@ public class controllerListar implements Initializable {
             confirmacao.showAndWait();
             
     	}else {
+    		
     		 Alert alerta = new Alert(AlertType.ERROR);
     	     alerta.setTitle("Erro de Exclusão");
     	     alerta.setHeaderText("Nenhum Aluno Selecionado");
@@ -128,6 +136,7 @@ public class controllerListar implements Initializable {
     public void alterarAluno() {
     	
     Aluno alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
+    System.out.println(alunoSelecionado);
 
     if (alunoSelecionado != null) {
         try {

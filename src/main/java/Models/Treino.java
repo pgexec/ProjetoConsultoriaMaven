@@ -15,6 +15,13 @@ public class Treino {
 		setDescricao(descricao);
 		setTreinoTipo(tipo);
 	}
+	
+	public Treino(int id,String descricao, LocalDate data, TipoTreino tipo) {
+		setId(id);
+		setData(data);
+		setDescricao(descricao);
+		setTreinoTipo(tipo);
+	}
 	public Treino() {
 		
 	}

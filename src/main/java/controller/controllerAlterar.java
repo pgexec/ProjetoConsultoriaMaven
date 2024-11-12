@@ -11,6 +11,8 @@ import Models.Treino;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -80,7 +82,6 @@ public class controllerAlterar implements Initializable{
 	public void setAluno(Aluno aluno) {
 		
 		this.alunoAtual = aluno;
-		alunoAtual.setId(aluno.getId());
 		nameField.setText(aluno.getNome());
 		cpfField.setText(aluno.getCpf());
 		pesoField.setText(aluno.getPeso().toString());
@@ -91,22 +92,41 @@ public class controllerAlterar implements Initializable{
 	}
 	
 	public void salvarAlteracoes() {
-		
-        alunoAtual.setNome(nameField.getText());
-        alunoAtual.setCpf(cpfField.getText());
-        alunoAtual.setPeso(Double.parseDouble(pesoField.getText()));
-        alunoAtual.setAltura(Double.parseDouble(alturaField.getText()));
-        
-        String descricao = descricaoField.getText();
-    	TipoTreino tipoTreino = tipoTreinoSelected.getValue();
-    	LocalDate dataTreino = LocalDate.now();
-    	Treino treino  = new Treino(descricao,dataTreino,tipoTreino);
-       alunoAtual.setTreino(treino);
-        
-        // Atualize os dados do aluno no banco de dados
-        Repository repository = new Repository();
-        repository.update(alunoAtual);
-    }
+	    if (alunoAtual.getId() == 0) {
+	    	
+	    	 Alert alertaErro = new Alert(AlertType.ERROR);
+	         alertaErro.setTitle("Erro");
+	         alertaErro.setHeaderText("Ocorreu um erro");
+	         alertaErro.setContentText("Erro, ID de aluno invalido, impossivel efetuar alteração");
+	         
+	         alertaErro.showAndWait();
+	        return;
+	    }
+	    // Certifique-se de que as demais propriedades foram configuradas
+	    alunoAtual.setNome(nameField.getText());
+	    alunoAtual.setCpf(cpfField.getText());
+	    alunoAtual.setPeso(Double.parseDouble(pesoField.getText()));
+	    alunoAtual.setAltura(Double.parseDouble(alturaField.getText()));
+
+	    // Verifica e prepara o treino
+	    String descricao = descricaoField.getText();
+	    TipoTreino tipoTreino = tipoTreinoSelected.getValue();
+	    LocalDate dataTreino = LocalDate.now();
+	    Treino treino = new Treino(alunoAtual.getTreino().getId(), descricao, dataTreino, tipoTreino);
+	    alunoAtual.setTreino(treino);
+
+	    // Atualize os dados do aluno no banco de dados
+	    Repository repository = new Repository();
+	    if (!repository.update(alunoAtual)) {
+	    	
+	    	 Alert alertaErro = new Alert(AlertType.ERROR);
+	         alertaErro.setTitle("Erro");
+	         alertaErro.setHeaderText("Ocorreu um erro");
+	         alertaErro.setContentText("Erro ao atualizar o aluno ao Banco de dados");
+	         
+	         alertaErro.showAndWait();
+	    }
+	}
 	
 	private void addAlturaMask(TextField textField) {
 	    textField.textProperty().addListener((observable, oldValue, newValue) -> {

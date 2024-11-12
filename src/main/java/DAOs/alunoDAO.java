@@ -49,7 +49,7 @@ public class alunoDAO implements CrudRepository<AlunoTO>{
 
 	@Override
 	public boolean update(AlunoTO aluno) {
-	    String query = "UPDATE aluno SET nome = ?, cpf = ?, datanascimento = ?, peso = ?, altura = ? WHERE cpf = ?";
+	    String query = "UPDATE aluno SET nome = ?, cpf = ?, datanascimento = ?, peso = ?, altura = ? WHERE id = ?";
 	    
 	    try (Connection con = Conexao.getConexao(); 
 	         PreparedStatement pstm = con.prepareStatement(query)) {
@@ -60,7 +60,7 @@ public class alunoDAO implements CrudRepository<AlunoTO>{
 	        pstm.setDate(3, Date.valueOf(aluno.getDataNascimento()));
 	        pstm.setDouble(4, aluno.getPeso());
 	        pstm.setDouble(5, aluno.getAltura());
-	        pstm.setString(6, aluno.getCpf());
+	        pstm.setInt(6, aluno.getId());
 	        pstm.executeUpdate();
 	        
 	    } catch (SQLException e) {

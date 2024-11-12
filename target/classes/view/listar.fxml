@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="766.0" prefWidth="1374.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerListar">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="761.0" prefWidth="1549.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerListar">
    <children>
-      <TableView fx:id="tableViewAlunos" prefHeight="698.0" prefWidth="1374.0">
+      <TableView fx:id="tableViewAlunos" layoutY="-3.0" prefHeight="701.0" prefWidth="1548.0">
         <columns>
             <TableColumn fx:id="columnID" prefWidth="142.0" text="ID" />
           <TableColumn fx:id="columnNome" prefWidth="142.0" text="NOME" />
@@ -16,6 +16,7 @@
           <TableColumn fx:id="columnData" prefWidth="174.0" text="DATA DE NASCIMENTO" />
           <TableColumn fx:id="columnPeso" prefWidth="117.0" text="PESO" />
           <TableColumn fx:id="columnAltura" prefWidth="135.0" text="ALTURA" />
+            <TableColumn fx:id="columnIdTreino" prefWidth="196.0" text="ID DO TREINO" />
           <TableColumn fx:id="columnDescricao" prefWidth="196.0" text="DESCRICAO DO TREINO" />
           <TableColumn fx:id="columnDataInicio" prefWidth="135.0" text="DATA DE INICIO " />
           <TableColumn fx:id="columnTipoTreino" prefWidth="135.0" text="TIPO DE TREINO" />
