@@ -9,6 +9,7 @@ import Enum.TipoTreino;
 import Models.Aluno;
 import Models.Treino;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -69,6 +70,13 @@ public class controllerAlterar implements Initializable{
 		tipoTreinoSelected.getItems().addAll(TipoTreino.values());
 	}
 	
+	private ObservableList<Aluno> listaAlunos;
+
+	public void setListaAlunos(ObservableList<Aluno> listaAlunos) {
+	    this.listaAlunos = listaAlunos;
+	}
+
+	
 	public void cancelar() {
 		Stage stageAtual = (Stage) btCancelar.getScene().getWindow();
     	stageAtual.close();
@@ -125,6 +133,19 @@ public class controllerAlterar implements Initializable{
 	         alertaErro.setContentText("Erro ao atualizar o aluno ao Banco de dados");
 	         
 	         alertaErro.showAndWait();
+	         
+	    } else {
+	        Alert alertaSucesso = new Alert(AlertType.INFORMATION);
+	        alertaSucesso.setTitle("Sucesso");
+	        alertaSucesso.setHeaderText("Atualização bem-sucedida");
+	        alertaSucesso.setContentText("O aluno foi alterado com sucesso.");
+	        alertaSucesso.showAndWait();
+	        int index = listaAlunos.indexOf(alunoAtual);
+	        if (index >= 0) {
+	        	listaAlunos.set(index, alunoAtual); // Atualiza o aluno na lista
+	        }
+	        Stage stageAtual = (Stage) btAlterar.getScene().getWindow();
+	        stageAtual.close();
 	    }
 	}
 	

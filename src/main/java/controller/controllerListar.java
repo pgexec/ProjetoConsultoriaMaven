@@ -149,6 +149,7 @@ public class controllerListar implements Initializable {
             
             // Passa o alunoSelecionado para o controlador da tela alterar
             controller.setAluno(alunoSelecionado);
+            controller.setListaAlunos(tableViewAlunos.getItems());
 
             // Cria e exibe uma nova janela (Stage) para a tela alterar
             Stage stage = new Stage();
