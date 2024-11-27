@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 public class cadastrar extends Application{
 	
 	
-
 	@Override
 	public void start (Stage primaryStage) throws Exception {
 		

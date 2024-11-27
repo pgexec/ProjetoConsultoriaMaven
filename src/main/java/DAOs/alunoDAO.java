@@ -23,8 +23,7 @@ public class alunoDAO implements CrudRepository<AlunoTO>{
  try (Connection con = Conexao.getConexao();
       PreparedStatement pstm = con.prepareStatement(query)) {
 
-     // Configura os parâmetros
-     pstm.setString(1, aluno.getNome());
+	 pstm.setString(1, aluno.getNome());
      pstm.setString(2, aluno.getCpf());
      pstm.setDate(3, Date.valueOf(aluno.getDataNascimento()));
      pstm.setDouble(4, aluno.getPeso());

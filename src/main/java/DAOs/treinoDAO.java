@@ -24,7 +24,6 @@ public class treinoDAO implements CrudRepository<TreinoTO> {
 	try (Connection con = Conexao.getConexao();
 	         PreparedStatement pstm = con.prepareStatement(query)) {
 
-	        // Desativei o auto-commit para controle manual da transação
 	        con.setAutoCommit(false);
 
 	      
@@ -38,7 +37,7 @@ public class treinoDAO implements CrudRepository<TreinoTO> {
 	        	
 	            if (result.next()) {
 	                int idGerado = result.getInt("id");
-	                treino.setId(idGerado); // Atribui o ID ao objeto TreinoTO
+	                treino.setId(idGerado); 
 	          
 	                con.commit();
 	                return true;

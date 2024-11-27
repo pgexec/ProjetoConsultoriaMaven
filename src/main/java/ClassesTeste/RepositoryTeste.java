@@ -17,18 +17,17 @@ public class RepositoryTeste {
 		Repository repository = new Repository();
 
 		// Teste 1: Inserção de Aluno com Treino
-		/*
-		 * System.out.println("--------------------------------------------");
-		 * System.out.println("Teste 1: Inserção de Aluno com Treino"); if
-		 * (inserirAlunoComTreino(repository)) {
-		 * System.out.println("Aluno e treino inseridos com sucesso."); } else {
-		 * System.out.println("Falha ao inserir aluno e treino."); }
-		 */
-
+		
+		 System.out.println("--------------------------------------------");
+		 System.out.println("Teste 1: Inserção de Aluno com Treino"); if
+		 (inserirAlunoComTreino(repository)) {
+		  System.out.println("Aluno e treino inseridos com sucesso."); } else {
+		 System.out.println("Falha ao inserir aluno e treino."); }
+		 
 		System.out.println("--------------------------------------------");
 		// Teste 2: Buscar Aluno por ID
 		System.out.println("\nTeste 2: Buscar Aluno por ID");
-		buscarAlunoPorId(repository, 31); // Supondo que o ID do aluno seja 1
+		buscarAlunoPorId(repository, 54); // Supondo que o ID do aluno seja 1
 		System.out.println("--------------------------------------------");
 
 		System.out.println("Teste 3: listar os alunos existentes:");
@@ -50,19 +49,15 @@ public class RepositoryTeste {
 			}
 		}
 
-		System.out.println("--------------------------------------------");
-		//Teste 3: Teste excluindo Aluno do BD
-		  System.out.println("Teste 4: teste de excluir Aluno"); 
-		  boolean deletado = repository.delete(33);
-		  if(deletado) {
-			  System.out.println("deletado com Sucesso!");
-		  }else {
-			  System.out.println("Erro ao deletar!");
-		  }
 		
 		System.out.println("--------------------------------------------");
-		// Teste 4: Inserção de Aluno com Dados Inválidos
-		System.out.println("\nTeste 4: Inserção de Aluno com Nome Inválido");
+		//Teste 4: Teste atualizando Aluno do BD
+		System.out.println("Teste 4: teste atualizar aluno"); 
+		RepositoryTeste.atualizarAluno(repository, 54);
+			  		
+		System.out.println("--------------------------------------------");
+		// Teste 5: Inserção de Aluno com Dados Inválidos
+		System.out.println("\nTeste 5: Inserção de Aluno com Nome Inválido");
 		try {
 			inserirAlunoComNomeInvalido(repository);
 		} catch (IllegalArgumentException e) {
@@ -139,4 +134,46 @@ public class RepositoryTeste {
 
 		repository.insert(aluno); // Deve lançar exceção
 	}
+	
+		public static void atualizarAluno(Repository repository, int alunoId) {
+	        // Buscar o aluno pelo ID
+	        Aluno aluno = repository.buscarPorId(alunoId);
+	
+	        if (aluno != null) {
+	            System.out.println("Aluno antes da atualização: " + aluno);
+	
+	            // Atualizar os dados do aluno
+	            aluno.setNome("Novo Nome Atualizado");
+	            aluno.setCpf("22222222221");
+	            aluno.setDataNascimento(LocalDate.of(1990, 1, 1));
+	            aluno.setPeso(75.0);
+	            aluno.setAltura(1.80);
+	
+	            // Atualizar o treino associado, se existir
+	            Treino treino = aluno.getTreino();
+	            if (treino != null) {
+	                treino.setDescricao("Treino Atualizado");
+	                treino.setData(LocalDate.now());
+	                treino.setTreinoTipo(TipoTreino.COSTA);
+	            } else {
+	                // Criar um novo treino se não existir
+	                treino = new Treino();
+	                treino.setDescricao("Novo Treino Adicionado");
+	                treino.setData(LocalDate.now());
+	                treino.setTreinoTipo(TipoTreino.PERNA);
+	                aluno.setTreino(treino);
+	            }
+	
+	            // Enviar para o repository para atualização
+	            boolean atualizado = repository.update(aluno);
+	            if (atualizado) {
+	                System.out.println("Aluno atualizado com sucesso!");
+	                System.out.println("Aluno após a atualização: " + aluno);
+	            } else {
+	                System.out.println("Falha ao atualizar o aluno.");
+	            }
+	        } else {
+	            System.out.println("Aluno com ID " + alunoId + " não encontrado.");
+	        }
+	    }
 }

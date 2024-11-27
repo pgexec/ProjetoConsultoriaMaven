@@ -140,18 +140,17 @@ public class controllerListar implements Initializable {
 
     if (alunoSelecionado != null) {
         try {
-            // Carrega o arquivo FXML da tela alterar
+            
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/alterar.fxml"));
             Parent root = loader.load();
-            
-            // controlador associado ao FXML da tela alterar
+                    
             controllerAlterar controller = loader.getController();
             
-            // Passa o alunoSelecionado para o controlador da tela alterar
+            
             controller.setAluno(alunoSelecionado);
             controller.setListaAlunos(tableViewAlunos.getItems());
 
-            // Cria e exibe uma nova janela (Stage) para a tela alterar
+            
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Alterar Aluno");
@@ -177,9 +176,8 @@ public class controllerListar implements Initializable {
     
     public void voltarMenu() {
     	
-    	//pegando tela atual (tela cadastro)
     	Stage stageAtual = (Stage) btVoltar.getScene().getWindow();
-    	stageAtual.close(); //fechando ela
+    	stageAtual.close(); 
     	
     	Main main = new Main();
 

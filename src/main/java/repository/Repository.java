@@ -74,33 +74,44 @@ public class Repository implements CrudRepository<Aluno>{
 	@Override
 	public boolean update(Aluno aluno) {
 		
-		AlunoTO alunoTO = new AlunoTO();
-		TreinoTO treinoTO =new TreinoTO();
-		Treino treino = aluno.getTreino();
-		
-		alunoTO.setNome(aluno.getNome());
-		alunoTO.setCpf(aluno.getCpf());
-		alunoTO.setDataNascimento(aluno.getDataNascimento());
-		alunoTO.setPeso(aluno.getPeso());
-		alunoTO.setAltura(aluno.getAltura());
-		
-		treinoTO.setId(treino.getId());
-		treinoTO.setIdAluno(aluno.getId());
-		treinoTO.setDescricao(treino.getDescricao());
-		treinoTO.setData(treino.getData());
-		treinoTO.setTreinoTipo(treino.getTipoTreino());
-		
-		boolean alunoAtualizado = alunoDAO.update(alunoTO);
-		if(!alunoAtualizado) {
-			return false;
-		}
-		boolean treinoAtualizado = treinoDAO.update(treinoTO);
-		if(!treinoAtualizado) {
-			return false;
-		}
-		
-		return true;
+	    AlunoTO alunoTO = new AlunoTO();
+	    TreinoTO treinoTO = new TreinoTO();
+	    Treino treino = aluno.getTreino();
+	    
+	    alunoTO.setId(aluno.getId());
+	    alunoTO.setNome(aluno.getNome());
+	    alunoTO.setCpf(aluno.getCpf());
+	    alunoTO.setDataNascimento(aluno.getDataNascimento());
+	    alunoTO.setPeso(aluno.getPeso());
+	    alunoTO.setAltura(aluno.getAltura());
+
+	    treinoTO.setId(treino.getId());
+	    treinoTO.setIdAluno(aluno.getId());
+	    treinoTO.setDescricao(treino.getDescricao());
+	    treinoTO.setData(treino.getData());
+	    treinoTO.setTreinoTipo(treino.getTipoTreino());
+
+	    try {
+	        
+	        boolean alunoAtualizado = alunoDAO.update(alunoTO);
+	        if (!alunoAtualizado) {
+	            throw new RuntimeException("Falha ao atualizar aluno.");
+	        }
+
+	 
+	        boolean treinoAtualizado = treinoDAO.update(treinoTO);
+	        if (!treinoAtualizado) {
+	            throw new RuntimeException("Falha ao atualizar treino.");
+	        }
+
+	        return true;
+
+	    } catch (Exception e) {
+	        System.err.println("Erro ao atualizar aluno ou treino: " + e.getMessage());
+	        return false;
+	    }
 	}
+
 
 	@Override
 	public boolean delete(int id) {
