@@ -34,9 +34,10 @@ public class Main extends Application {
 		try {
 	        System.out.println("Carregando: " + tela);
 			Pane root = FXMLLoader.load(Main.class.getResource(tela));
-			Scene scene = new Scene(root,1000,1000);
+			Scene scene = new Scene(root,950,600);
 			stage.setScene(scene);
 			stage.show();
+			stage.centerOnScreen();
 		} catch(Exception e) {
 	        System.err.println("Erro ao carregar a tela: " + tela);
 			e.printStackTrace();

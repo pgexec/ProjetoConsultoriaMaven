@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane prefHeight="471.0" prefWidth="646.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controller.controller">
+    <children>
+        <Label layoutX="43.0" layoutY="92.0" text="Minha Nova Tela" />
+    </children>
+</Pane>

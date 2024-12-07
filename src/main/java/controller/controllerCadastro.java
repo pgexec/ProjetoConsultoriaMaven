@@ -75,8 +75,7 @@ public class controllerCadastro{
     	Aluno aluno = new Aluno(nome,cpf,dataNasc,peso,altura,null);
     	
     	Repository repository = new Repository();
-    	repository.insert(aluno);
-    	
+    	repository.insert(aluno);  	
     }
     
     
