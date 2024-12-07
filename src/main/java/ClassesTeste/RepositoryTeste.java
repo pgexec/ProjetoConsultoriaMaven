@@ -77,9 +77,8 @@ public class RepositoryTeste {
 
 		// Cria um treino associado
 		Treino treino = new Treino();
-		treino.setDescricao("Treino de Força");
 		treino.setData(LocalDate.now().minusDays(10));
-		treino.setTreinoTipo(TipoTreino.COSTA);
+		treino.setTipoTreino(TipoTreino.RESISTENCIA);
 		aluno.setTreino(treino);
 
 		boolean alunoInserido = repository.insert(aluno);
@@ -112,7 +111,6 @@ public class RepositoryTeste {
 				System.out.println("--------------------------------------------");
 				System.out.println("ID do Treino associado: " + treino.getId());
 				System.out.println("DATA do Treino associado: " + treino.getData());
-				System.out.println("DESCRIÇÃO do Treino associado: " + treino.getDescricao());
 				System.out.println("--------------------------------------------");
 
 			} else {
@@ -152,15 +150,14 @@ public class RepositoryTeste {
 	            // Atualizar o treino associado, se existir
 	            Treino treino = aluno.getTreino();
 	            if (treino != null) {
-	                treino.setDescricao("Treino Atualizado");
 	                treino.setData(LocalDate.now());
-	                treino.setTreinoTipo(TipoTreino.COSTA);
+	                treino.setTipoTreino(null);
 	            } else {
 	                // Criar um novo treino se não existir
 	                treino = new Treino();
-	                treino.setDescricao("Novo Treino Adicionado");
+	              
 	                treino.setData(LocalDate.now());
-	                treino.setTreinoTipo(TipoTreino.PERNA);
+	                treino.setTipoTreino(null);
 	                aluno.setTreino(treino);
 	            }
 	

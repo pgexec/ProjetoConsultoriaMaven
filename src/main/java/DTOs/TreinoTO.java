@@ -1,79 +1,91 @@
 package DTOs;
 
-import java.time.LocalDate;
-
+import Enum.Intensidade;
+import Enum.NivelDificuldade;
 import Enum.TipoTreino;
 
+import java.time.LocalDate;
+
+
 public class TreinoTO {
-	private int id;
-	private int alunoId;
-	private String descricao;
-	private LocalDate data;
-	private TipoTreino tipo;
+    private int id;                     // ID único do treino
+    private int alunoId;                // ID do aluno relacionado
+    private TipoTreino tipoTreino;      // Enum para o foco do treino
+    private Intensidade intensidade;    // Enum para intensidade do treino
+    private LocalDate data;             // Data do treino
+    private NivelDificuldade nivelDificuldade; // Enum para nível de dificuldade
 
-	public int getId(){
-		return this.id;
-	}
-	
-	public String getDescricao() {
-		return this.descricao;
-	}
-	
-	public LocalDate getData() {
-		return this.data;
-	}
-	
-	public int getIdAluno() {
-		return this.alunoId;
-	}
+    // Construtor vazio
+    public TreinoTO() {}
 
-	public TipoTreino getTipoTreino() {
-		return this.tipo;
-	}
-	
-	public void setId(int id) {
-		if(id > 0) {
-			this.id = id;
-		}
-		
-	}
-	
-	public void setIdAluno(int idAluno) {
-		if(idAluno > 0) { //colocar validação de comparação com ID existente já
-			this.alunoId = idAluno;
-		}else {
-			throw new IllegalArgumentException("ID ALUNO INVÁLIDO");
-		}
-	}
-	
-	public void setDescricao(String descricao) {
-		if(descricao == null || descricao.trim().isEmpty() ) {
-			throw new IllegalArgumentException("descrição inválida, está vazia");
-		}
-		this.descricao = descricao;
-	}
-	
-	public void setData(LocalDate data) {
+    // Construtor completo
+    public TreinoTO(int id, int alunoId, TipoTreino tipoTreino, Intensidade intensidade, LocalDate data, NivelDificuldade nivelDificuldade) {
+        this.id = id;
+        this.alunoId = alunoId;
+        this.tipoTreino = tipoTreino;
+        this.intensidade = intensidade;
+        this.data = data;
+        this.nivelDificuldade = nivelDificuldade;
+    }
 
-		if(data == null) {
-			 throw new IllegalArgumentException("Data inválida, vazia");
-		}
-		if(data.isAfter(LocalDate.now())) {
-			throw new IllegalArgumentException("Sua data está no futuro, inserá uma data válida");
-		}
-		if(data.isBefore(LocalDate.of(1900, 1, 1))) {
-			throw new IllegalArgumentException("A data deve ser depois de 01/01/1900");
-		}
-		this.data = data;
-	}
-	
-	public void setTreinoTipo(TipoTreino tipoTreino) {
-		if(tipoTreino == null) {
-			throw new IllegalArgumentException("Tipo de treino inválido");
-		}
-		this.tipo = tipoTreino;
-	}
+    // Getters e Setters
+    public int getId() {
+        return id;
+    }
 
-	
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public int getAlunoId() {
+        return alunoId;
+    }
+
+    public void setAlunoId(int alunoId) {
+        this.alunoId = alunoId;
+    }
+
+    public TipoTreino getTipoTreino() {
+        return tipoTreino;
+    }
+
+    public void setTipoTreino(TipoTreino tipoTreino) {
+        this.tipoTreino = tipoTreino;
+    }
+
+    public Intensidade getIntensidade() {
+        return intensidade;
+    }
+
+    public void setIntensidade(Intensidade intensidade) {
+        this.intensidade = intensidade;
+    }
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+
+    public NivelDificuldade getNivelDificuldade() {
+        return nivelDificuldade;
+    }
+
+    public void setNivelDificuldade(NivelDificuldade nivelDificuldade) {
+        this.nivelDificuldade = nivelDificuldade;
+    }
+
+    @Override
+    public String toString() {
+        return "Treino{" +
+               "id=" + id +
+               ", alunoId=" + alunoId +
+               ", tipoTreino=" + tipoTreino +
+               ", intensidade=" + intensidade +
+               ", data=" + data +
+               ", nivelDificuldade=" + nivelDificuldade +
+               '}';
+    }
 }

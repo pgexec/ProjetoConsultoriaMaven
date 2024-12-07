@@ -20,6 +20,14 @@ public class Aluno {
 		setAltura(altura);
 		setTreino(treino);
 	}
+	public Aluno(String nome, String cpf, LocalDate datanasc, Double peso,Double altura) {
+		setNome(nome);
+		setCpf(cpf);
+		setDataNascimento(datanasc);
+		setPeso(peso);
+		setAltura(altura);
+		
+	}
 	public Aluno() {
 		
 	}

@@ -7,9 +7,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
+import DAOs.alunoDAO;
+import DTOs.AlunoTO;
 import Enum.TipoTreino;
-import Models.Aluno;
-import Models.Treino;
+import application.Main;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,7 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import repository.Repository;
+
 
 public class controllerAlterar implements Initializable{
 	
@@ -57,7 +58,7 @@ public class controllerAlterar implements Initializable{
     @FXML
     private ComboBox<TipoTreino> tipoTreinoSelected;
     
-    private Aluno alunoAtual;
+    private AlunoTO alunoAtual;
     
     
 	@Override
@@ -73,31 +74,25 @@ public class controllerAlterar implements Initializable{
 	
 	
 	
-	private ObservableList<Aluno> listaAlunos;
+	private ObservableList<AlunoTO> listaAlunos;
 
-	public void setListaAlunos(ObservableList<Aluno> listaAlunos) {
+	public void setListaAlunos(ObservableList<AlunoTO> listaAlunos) {
 	    this.listaAlunos = listaAlunos;
 	}
-
+	
 	//função para o botão de cancelar que contém na tela
-	public void cancelar() {
-		Stage stageAtual = (Stage) btCancelar.getScene().getWindow();
-    	stageAtual.close();
+	public void cancelar(){
+    	Main.loadView("listar");
 	}
 	
 	
-	public void setAluno(Aluno aluno) {
-		
+	public void setAluno(AlunoTO aluno){	
 		System.out.println("Aluno selecionado para alterar: " + aluno);
 	    this.alunoAtual = aluno;
 	    nameField.setText(aluno.getNome());
 	    cpfField.setText(aluno.getCpf());
 	    pesoField.setText(aluno.getPeso().toString());
-	    alturaField.setText(aluno.getAltura().toString());
-	    dataInicioField.setText(aluno.getTreino().getData().toString());
-	    dataNascField.setText(aluno.getDataNascimento().toString());
-	    descricaoField.setText(aluno.getTreino().getDescricao());
-	    tipoTreinoSelected.setValue(aluno.getTreino().getTipoTreino());
+	    alturaField.setText(aluno.getAltura().toString());   
 	}
 	
 	//função que salva as alterações que são feito no formulário
@@ -105,6 +100,7 @@ public class controllerAlterar implements Initializable{
 		
 		
 	    if (alunoAtual.getId() == 0) {
+	    	
 	        Alert alertaErro = new Alert(AlertType.ERROR);
 	        alertaErro.setTitle("Erro");
 	        alertaErro.setHeaderText("Ocorreu um erro");
@@ -120,28 +116,24 @@ public class controllerAlterar implements Initializable{
 	    alunoAtual.setAltura(Double.parseDouble(alturaField.getText()));
 	    System.out.println(alunoAtual.getId());
 
-	    try {
+	    try{
 	        // Configura o DateTimeFormatter para o formato esperado
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-
 	        alunoAtual.setDataNascimento(LocalDate.parse(dataNascField.getText(), formatter));
 
-	        String descricao = descricaoField.getText();
-	        TipoTreino tipoTreino = tipoTreinoSelected.getValue();
-	        LocalDate dataTreino = LocalDate.parse(dataInicioField.getText(), formatter);
-
-	        Treino treino = new Treino(alunoAtual.getTreino().getId(), descricao, dataTreino, tipoTreino);
-	        alunoAtual.setTreino(treino);
-
-	        Repository repository = new Repository();
-
-	        if (!repository.update(alunoAtual)) {
+	      
+	        alunoDAO dao = new alunoDAO();
+	        
+	        if (!dao.update(alunoAtual)) {
+	        	
 	            Alert alertaErro = new Alert(AlertType.ERROR);
 	            alertaErro.setTitle("Erro");
 	            alertaErro.setHeaderText("Ocorreu um erro");
 	            alertaErro.setContentText("Erro ao atualizar o aluno no banco de dados");
 	            alertaErro.showAndWait();
+	            
 	        } else {
+	        	
 	            Alert alertaSucesso = new Alert(AlertType.INFORMATION);
 	            alertaSucesso.setTitle("Sucesso");
 	            alertaSucesso.setHeaderText("Atualização bem-sucedida");
@@ -156,14 +148,14 @@ public class controllerAlterar implements Initializable{
 	            Stage stageAtual = (Stage) btAlterar.getScene().getWindow();
 	            stageAtual.close();
 	        }
-	    } catch (DateTimeParseException e) {
+	    }catch (DateTimeParseException e){
 	        Alert alertaErro = new Alert(AlertType.ERROR);
 	        alertaErro.setTitle("Erro");
 	        alertaErro.setHeaderText("Erro no formato da data");
 	        alertaErro.setContentText("Por favor, insira a data no formato yyyy/MM/dd.");
 	        alertaErro.showAndWait();
-	        e.printStackTrace();
-	    } catch (Exception e) {
+	        e.printStackTrace();     
+	    }catch(Exception e){
 	        Alert alertaErro = new Alert(AlertType.ERROR);
 	        alertaErro.setTitle("Erro");
 	        alertaErro.setHeaderText("Erro ao salvar alterações");
@@ -184,8 +176,6 @@ public class controllerAlterar implements Initializable{
 	        
 	    	
 	        String cleanValue = newValue.replaceAll("[^\\d]", "");
-	
-	       
 	        if (cleanValue.length() > 3) {
 	            cleanValue = cleanValue.substring(0, 3);
 	        }
@@ -248,9 +238,7 @@ public class controllerAlterar implements Initializable{
 	            
 	            if (cleanValue.length() > 4) {
 	                cleanValue = cleanValue.substring(0, 4);
-	            }
-
-	            
+	            }     
 	            String formattedValue;
 	            if (cleanValue.length() >= 3) {
 	            
@@ -261,10 +249,8 @@ public class controllerAlterar implements Initializable{
 	            } else {
 	                // Apenas 1 dígito (ou vazio)
 	                formattedValue = cleanValue;
-	            }
-
-	            
-	            if (!formattedValue.equals(newValue)) {
+	            }	            
+	            if (!formattedValue.equals(newValue)){
 	                textField.setText(formattedValue);
 	                textField.positionCaret(formattedValue.length());
 	            }

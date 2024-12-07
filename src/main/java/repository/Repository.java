@@ -26,7 +26,7 @@ public class Repository implements CrudRepository<Aluno>{
 	public boolean insert(Aluno aluno) {
 		
 		 try {
-		        // Preencher o AlunoTO
+		      
 		        AlunoTO alunoTO = new AlunoTO();
 		        alunoTO.setCpf(aluno.getCpf());
 		        alunoTO.setAltura(aluno.getAltura());
@@ -34,7 +34,7 @@ public class Repository implements CrudRepository<Aluno>{
 		        alunoTO.setPeso(aluno.getPeso());
 		        alunoTO.setDataNascimento(aluno.getDataNascimento());
 
-		        // Inserir o aluno e recuperar o ID gerado
+		     
 		        boolean alunoInserido = alunoDAO.insert(alunoTO);
 		        System.out.println(alunoTO.getId() + "este é o id do aluno");
 		        if (!alunoInserido) {
@@ -42,16 +42,15 @@ public class Repository implements CrudRepository<Aluno>{
 		            return false;
 		        }
 
-		        // Atribuir o ID gerado ao objeto Aluno e ao Treino
-		        aluno.setId(alunoTO.getId());  // Atribui o ID ao objeto Aluno
+		      
+		        aluno.setId(alunoTO.getId());  
 		        if (aluno.getTreino() != null || aluno.getId() != 0) {
 		            Treino treino = aluno.getTreino();
-		            // Preencher o TreinoTO
+		       
 		            TreinoTO treinoTO = new TreinoTO();
-		            treinoTO.setDescricao(treino.getDescricao());
-		            treinoTO.setTreinoTipo(treino.getTipoTreino());
+		            treinoTO.setTipoTreino(treino.getTipoTreino());
 		            treinoTO.setData(treino.getData());
-		            treinoTO.setIdAluno(alunoTO.getId());  // Agora com o ID correto
+		            treinoTO.setAlunoId(alunoTO.getId());  
 
 		            // Inserir o treino
 		            boolean treinoInserido = treinoDAO.insert(treinoTO);
@@ -71,46 +70,48 @@ public class Repository implements CrudRepository<Aluno>{
 		    }
 	}
 
-	@Override
-	public boolean update(Aluno aluno) {
-		
-	    AlunoTO alunoTO = new AlunoTO();
-	    TreinoTO treinoTO = new TreinoTO();
-	    Treino treino = aluno.getTreino();
-	    
-	    alunoTO.setId(aluno.getId());
-	    alunoTO.setNome(aluno.getNome());
-	    alunoTO.setCpf(aluno.getCpf());
-	    alunoTO.setDataNascimento(aluno.getDataNascimento());
-	    alunoTO.setPeso(aluno.getPeso());
-	    alunoTO.setAltura(aluno.getAltura());
+	 @Override
+	    public boolean update(Aluno aluno) {
+	        try {
+	            // Convertendo Aluno para AlunoTO
+	            AlunoTO alunoTO = new AlunoTO();
+	            alunoTO.setId(aluno.getId());
+	            alunoTO.setNome(aluno.getNome());
+	            alunoTO.setCpf(aluno.getCpf());
+	            alunoTO.setDataNascimento(aluno.getDataNascimento());
+	            alunoTO.setPeso(aluno.getPeso());
+	            alunoTO.setAltura(aluno.getAltura());
 
-	    treinoTO.setId(treino.getId());
-	    treinoTO.setIdAluno(aluno.getId());
-	    treinoTO.setDescricao(treino.getDescricao());
-	    treinoTO.setData(treino.getData());
-	    treinoTO.setTreinoTipo(treino.getTipoTreino());
+	            boolean alunoAtualizado = alunoDAO.update(alunoTO);
+	            if (!alunoAtualizado) {
+	                throw new RuntimeException("Falha ao atualizar aluno.");
+	            }
 
-	    try {
-	        
-	        boolean alunoAtualizado = alunoDAO.update(alunoTO);
-	        if (!alunoAtualizado) {
-	            throw new RuntimeException("Falha ao atualizar aluno.");
+	            // Atualizando treino associado
+	            Treino treino = aluno.getTreino();
+	            if (treino != null) {
+	                TreinoTO treinoTO = new TreinoTO();
+
+	                treinoTO.setId(treino.getId());
+	                treinoTO.setAlunoId(aluno.getId());
+	                treinoTO.setData(treino.getData());
+	                treinoTO.setTipoTreino(treino.getTipoTreino());
+	                treinoTO.setIntensidade(treino.getIntensidade());
+	                treinoTO.setNivelDificuldade(treino.getNivelDificuldade());
+
+	                boolean treinoAtualizado = treinoDAO.update(treinoTO);
+	                if (!treinoAtualizado) {
+	                    throw new RuntimeException("Falha ao atualizar treino.");
+	                }
+	            }
+
+	            return true;
+
+	        } catch (Exception e) {
+	            System.err.println("Erro ao atualizar aluno ou treino: " + e.getMessage());
+	            return false;
 	        }
-
-	 
-	        boolean treinoAtualizado = treinoDAO.update(treinoTO);
-	        if (!treinoAtualizado) {
-	            throw new RuntimeException("Falha ao atualizar treino.");
-	        }
-
-	        return true;
-
-	    } catch (Exception e) {
-	        System.err.println("Erro ao atualizar aluno ou treino: " + e.getMessage());
-	        return false;
 	    }
-	}
 
 
 	@Override
@@ -154,42 +155,28 @@ public class Repository implements CrudRepository<Aluno>{
 	}
 
 	@Override
-	public List<Aluno> list(int limit, int offset) {
-		
-		List<Aluno> listaAluno = new ArrayList<>();
-		
-		List<AlunoTO> listaAlunosTO = alunoDAO.list(limit,offset);
-		List<TreinoTO> listaTreinoTO = treinoDAO.list(limit,offset);
-		
-		for(AlunoTO alunoTO : listaAlunosTO) {
-			for(TreinoTO treinoTO : listaTreinoTO) {
-				if(alunoTO.getId() == treinoTO.getIdAluno()) {
-					
-					Aluno aluno = new Aluno();
-					Treino treino = new Treino();
-					
-					aluno.setId(alunoTO.getId());
-					aluno.setNome(alunoTO.getNome());
-					aluno.setCpf(alunoTO.getCpf());
-					aluno.setDataNascimento(alunoTO.getDataNascimento());
-					aluno.setPeso(alunoTO.getPeso());
-					aluno.setAltura(alunoTO.getAltura());
-					
-					treino.setId(treinoTO.getId());
-					treino.setDescricao(treinoTO.getDescricao());
-					treino.setData(treinoTO.getData());
-					treino.setTreinoTipo(treinoTO.getTipoTreino());
-				
-					aluno.setTreino(treino);
-					listaAluno.add(aluno);
-				}
-			
-				
-			}
-		}
-		
-		return listaAluno;
-	}
+    public List<Aluno> list(int limit, int offset) {
+        List<Aluno> listaAluno = new ArrayList<>();
+
+        List<AlunoTO> listaAlunosTO = alunoDAO.list(limit, offset);
+        List<TreinoTO> listaTreinoTO = treinoDAO.list(limit, offset);
+
+        for (AlunoTO alunoTO : listaAlunosTO) {
+            Aluno aluno = converterAluno(alunoTO);
+
+            for (TreinoTO treinoTO : listaTreinoTO) {
+                if (alunoTO.getId() == treinoTO.getAlunoId()) {
+                    Treino treino = converterTreino(treinoTO);
+                    aluno.setTreino(treino);
+                    break;
+                }
+            }
+
+            listaAluno.add(aluno);
+        }
+
+        return listaAluno;
+    }
 	
 	private Aluno converterAluno(AlunoTO alunoTO) {
 		Aluno aluno = new Aluno();
@@ -205,11 +192,12 @@ public class Repository implements CrudRepository<Aluno>{
 	}
 	
 	private Treino converterTreino(TreinoTO treinoTO) {
-	    Treino treino = new Treino();
-	    treino.setId(treinoTO.getId());
-	    treino.setDescricao(treinoTO.getDescricao());
-	    treino.setData(treinoTO.getData());
-	    treino.setTreinoTipo(treinoTO.getTipoTreino());
-	    return treino;
+        Treino treino = new Treino();
+        treino.setId(treinoTO.getId());
+        treino.setData(treinoTO.getData());
+        treino.setTipoTreino(treinoTO.getTipoTreino());
+        treino.setIntensidade(treinoTO.getIntensidade());
+        treino.setNivelDificuldade(treinoTO.getNivelDificuldade());
+        return treino;
 	}
 }

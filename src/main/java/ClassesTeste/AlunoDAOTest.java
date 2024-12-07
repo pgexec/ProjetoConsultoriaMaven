@@ -20,7 +20,7 @@ public class AlunoDAOTest {
 		alunoDAO alunoDAO = new alunoDAO();
 		AlunoTO aluno = new AlunoTO();
 		aluno.setNome("enzooo");
-		aluno.setCpf("55555555555");
+		aluno.setCpf("55566677788");
 		aluno.setDataNascimento(LocalDate.of(1999, 1, 1));
 		aluno.setPeso(85.5);
 		aluno.setAltura(1.73);
@@ -44,9 +44,9 @@ public class AlunoDAOTest {
 	public static void testeAtualizarAluno() {
 		alunoDAO alunoDAO = new alunoDAO();
 		AlunoTO aluno = new AlunoTO();
-		aluno.setId(52);
+		aluno.setId(55);
 		aluno.setNome("enzo");
-		aluno.setCpf("33333333333");
+		aluno.setCpf("23445678921");
 		aluno.setDataNascimento(LocalDate.of(2000, 6, 24));
 		aluno.setPeso(65.0);
 		aluno.setAltura(1.72);
@@ -59,7 +59,7 @@ public class AlunoDAOTest {
 	
 	public static void testeListAlunos() {
 		alunoDAO alunoDAO = new alunoDAO();
-		List<AlunoTO> alunos = alunoDAO.list(0, 0);
+		List<AlunoTO> alunos = alunoDAO.list(20, 0);
 		
 		 if (alunos == null || alunos.isEmpty()) {
 		        System.out.println("Nenhum aluno encontrado ou lista é nula.");
@@ -82,7 +82,7 @@ public class AlunoDAOTest {
 	
 	public static void testeRemoverAluno() {
 		alunoDAO alunoDAO = new alunoDAO();
-		boolean removido = alunoDAO.delete(48);
+		boolean removido = alunoDAO.delete(55);
 		if(removido) {
 			System.out.println("deletar com SUCESSO");
 		}else

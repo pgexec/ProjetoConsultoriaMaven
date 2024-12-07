@@ -1,16 +1,15 @@
 package controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import telas.cadastrar;
-import telas.listar;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import application.Main;
 
 public class ControllerMain implements Initializable {
 
@@ -26,50 +25,21 @@ public class ControllerMain implements Initializable {
     @FXML
     private Pane paneMain;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
-		
-		btcadastro.setOnMouseClicked((MouseEvent e)-> {
-			
-			//pegando Stage atual no caso a tela Main
-			Stage stageAtual = (Stage) paneMain.getScene().getWindow();
-			stageAtual.close(); //fechando ela
-			
-			//criação da tela cadastro
-			cadastrar tlCadastro = new cadastrar();
-			try {
-				
-				tlCadastro.start(new Stage());
-				
-			} catch (Exception e1) {
-				
-				e1.printStackTrace();
-			}
-		});
-		
-		
-		btListar.setOnMouseClicked((MouseEvent e)-> {
-			
-			//pegando Stage atual no caso a tela Main
-			Stage stageAtual = (Stage) paneMain.getScene().getWindow();
-			stageAtual.close(); //fechando ela
-			
-			//criação da tela listar
-			listar tlListar = new listar();
-			try {
-				
-				tlListar.start(new Stage());
-				
-			} catch (Exception e1) {
-				
-				e1.printStackTrace();
-			}
-		});
-		
-	}
-    
-    
-    
-   
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        btcadastro.setOnMouseClicked((MouseEvent e) -> {
+            // Chamar a tela de cadastro
+            Main.loadView("cadastrar");
+        });
+
+        btListar.setOnMouseClicked((MouseEvent e) -> {
+            // Chamar a tela de listagem
+            Main.loadView("listar");
+        });
+
+        btSair.setOnMouseClicked((MouseEvent e) -> {
+            // Sair da aplicação
+            System.exit(0);
+        });
+    }
 }

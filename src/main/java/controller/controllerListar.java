@@ -5,11 +5,11 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import Models.Aluno;
+import DAOs.alunoDAO;
+import DTOs.AlunoTO;
 import application.Main;
 
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -43,74 +43,53 @@ public class controllerListar implements Initializable {
 	    
 	    
 	    @FXML
-	    private TableColumn <Aluno, Integer> columnID;
+	    private TableColumn <AlunoTO, Integer> columnID;
 	    
 	    @FXML
-	    private TableColumn<Aluno, String> columnNome;
+	    private TableColumn<AlunoTO, String> columnNome;
 
 	    @FXML
-	    private TableColumn<Aluno, String> columnCpf;
+	    private TableColumn<AlunoTO, String> columnCpf;
 
 	    @FXML
-	    private TableColumn<Aluno, LocalDate> columnData;
+	    private TableColumn<AlunoTO, LocalDate> columnData;
 
 	    @FXML
-	    private TableColumn<Aluno, Double> columnPeso;
+	    private TableColumn<AlunoTO, Double> columnPeso;
 
 	    @FXML
-	    private TableColumn<Aluno, Double> columnAltura;
+	    private TableColumn<AlunoTO, Double> columnAltura;
 	    
 	    @FXML
-	    private TableView<Aluno> tableViewAlunos;
-	    
-	    @FXML
-	    private TableColumn<Aluno, Integer> columnIdTreino;
-	    
-	    @FXML
-	    private TableColumn<Aluno,String> columnTipoTreino;
-	    
-	    @FXML
-	    private TableColumn<Aluno,String> columnDescricao;
-	    
-	    @FXML
-	    private TableColumn<Aluno, LocalDate> columnDataInicio;
-
+	    private TableView<AlunoTO> tableViewAlunos;
+	  
 
 
 	  
     
-    public void listarAlunos() {
-    	
-    	Repository repository = new Repository();
-    	
-    	ObservableList<Aluno> alunos = FXCollections.observableArrayList(repository.list(5, 0));
-    	
-    	columnID.setCellValueFactory(new PropertyValueFactory<>("id"));
-    	columnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
-    	columnCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
-    	columnPeso.setCellValueFactory(new PropertyValueFactory<>("peso"));
-        columnAltura.setCellValueFactory(new PropertyValueFactory<>("altura"));
-        columnData.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDataNascimento()));
+	    public void listarAlunos() {
+	    	
+	        alunoDAO dao = new alunoDAO();
 
-        columnIdTreino.setCellValueFactory(data -> { Integer idTreino = data.getValue().getTreino() != null ? data.getValue().getTreino().getId() : null;
-            return new SimpleObjectProperty<>(idTreino);
-        });
-        columnDescricao.setCellValueFactory(data ->new SimpleStringProperty(data.getValue().getTreino() != null ? data.getValue().getTreino().getDescricao() : ""));
-        
-        columnDataInicio.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getTreino() != null ? data.getValue().getTreino().getData() : null));
-    
-        columnTipoTreino.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getTreino() != null && data.getValue().getTreino().getTipoTreino() != null 
-        ? data.getValue().getTreino().getTipoTreino().toString() 
-        : ""));
-    
-    	tableViewAlunos.setItems(alunos);
-     }
-    
+	        // Obtendo a lista de AlunoTO e carregando-a no ObservableList
+	        ObservableList<AlunoTO> alunos = FXCollections.observableArrayList(dao.list(10, 0));
+
+	        // Configurando as colunas da tabela para exibir apenas os dados desejados
+	        columnID.setCellValueFactory(new PropertyValueFactory<>("id"));
+	        columnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+	        columnCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+	        columnPeso.setCellValueFactory(new PropertyValueFactory<>("peso"));
+	        columnAltura.setCellValueFactory(new PropertyValueFactory<>("altura"));
+	        columnData.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDataNascimento()));
+
+	        // Definindo os dados para a tabela
+	        tableViewAlunos.setItems(alunos);
+	    }
+
     public void excluirAluno() {
     
     	Repository repository = new Repository();
-    	
-    	Aluno alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
+    	AlunoTO alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
     	
     	if(alunoSelecionado != null) {
     		
@@ -135,12 +114,12 @@ public class controllerListar implements Initializable {
     
     public void alterarAluno() {
     	
-    Aluno alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
+    AlunoTO alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
     System.out.println(alunoSelecionado);
 
     if (alunoSelecionado != null) {
+    	
         try {
-            
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/alterar.fxml"));
             Parent root = loader.load();
                     
@@ -175,17 +154,7 @@ public class controllerListar implements Initializable {
     }
     
     public void voltarMenu() {
-    	
-    	Stage stageAtual = (Stage) btVoltar.getScene().getWindow();
-    	stageAtual.close(); 
-    	
-    	Main main = new Main();
-
-    	try {
-    		main.start(new Stage());
-    	}catch(Exception e) {
-    		e.printStackTrace();
-    	} 	
+    	Main.loadView("main");
     }
     
 
