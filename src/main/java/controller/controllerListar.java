@@ -159,6 +159,9 @@ public class controllerListar implements Initializable {
     	Main.loadView("main");
     }
     
+    public void criarTreinoAluno() {
+    	Main.loadView("telaCriarTreino");
+    }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

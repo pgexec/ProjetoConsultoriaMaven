@@ -1,6 +1,7 @@
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/DTOs/AlunoTO.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/controller/controllerListar.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/repository/Repository.java
+/home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/controller/controllerCriarTreino.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/DAOs/treinoDAO.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/telas/alterar.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/Enum/NivelDificuldade.java
