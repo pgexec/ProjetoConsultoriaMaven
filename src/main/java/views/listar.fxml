@@ -6,36 +6,44 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="761.0" prefWidth="1549.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerListar">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="937.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerListar">
    <children>
-      <TableView fx:id="tableViewAlunos" layoutX="-1.0" layoutY="-1.0" prefHeight="641.0" prefWidth="1549.0">
+      <TableView fx:id="tableViewAlunos" layoutX="-1.0" layoutY="-1.0" prefHeight="415.0" prefWidth="937.0">
         <columns>
            <TableColumn fx:id="columnID" prefWidth="142.0" text="ID" />
           <TableColumn fx:id="columnNome" prefWidth="142.0" text="NOME" />
           <TableColumn fx:id="columnCpf" prefWidth="142.0" text="CPF" />
           <TableColumn fx:id="columnData" prefWidth="174.0" text="DATA DE NASCIMENTO" />
-          <TableColumn fx:id="columnPeso" prefWidth="117.0" text="PESO" />
-          <TableColumn fx:id="columnAltura" prefWidth="135.0" text="ALTURA" />
+          <TableColumn fx:id="columnPeso" prefWidth="182.0" text="PESO" />
+          <TableColumn fx:id="columnAltura" minWidth="0.0" prefWidth="210.0" text="ALTURA" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button layoutX="1030.0" layoutY="707.0" mnemonicParsing="false" onAction="#excluirAluno" prefHeight="39.0" prefWidth="88.0" text="EXCLUIR" textAlignment="CENTER">
+      <Button fx:id="btAlterar" layoutX="728.0" layoutY="446.0" mnemonicParsing="false" onAction="#alterarAluno" text="ALTERAR" textAlignment="CENTER">
          <font>
-            <Font size="15.0" />
+            <Font size="12.0" />
          </font>
       </Button>
-      <Button fx:id="btAlterar" layoutX="1141.0" layoutY="712.0" mnemonicParsing="false" onAction="#alterarAluno" text="ALTERAR" textAlignment="CENTER">
+      <Button fx:id="btVisualizar" layoutX="822.0" layoutY="446.0" mnemonicParsing="false" text="VISUALIZAR" textAlignment="CENTER">
          <font>
-            <Font size="15.0" />
+            <Font size="12.0" />
          </font>
       </Button>
-      <Button fx:id="btVisualizar" layoutX="1250.0" layoutY="712.0" mnemonicParsing="false" text="VISUALIZAR" textAlignment="CENTER">
+      <Button fx:id="btVoltar" layoutX="27.0" layoutY="445.0" mnemonicParsing="false" onAction="#voltarMenu" text="VOLTAR">
          <font>
-            <Font size="15.0" />
+            <Font size="12.0" />
+         </font></Button>
+      <Button fx:id="btCriarTreino" layoutX="488.0" layoutY="446.0" mnemonicParsing="false" text="CRIAR TREINO">
+         <font>
+            <Font size="12.0" />
          </font>
       </Button>
-      <Button fx:id="btVoltar" layoutX="45.0" layoutY="715.0" mnemonicParsing="false" onAction="#voltarMenu" text="VOLTAR" />
+      <Button fx:id="btExcluir" layoutX="624.0" layoutY="445.0" mnemonicParsing="false" onAction="#excluirAluno" text="EXCLUIR">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

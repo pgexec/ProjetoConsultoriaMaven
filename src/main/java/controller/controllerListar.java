@@ -36,11 +36,13 @@ public class controllerListar implements Initializable {
 	    private Button btVisualizar;
 
 	    @FXML
-	    private Button btexcluir;
-
-	    @FXML
 	    private Button btVoltar;
 	    
+	    @FXML
+	    private Button btCriarTreino;
+	    
+	    @FXML
+	    private Button btExcluir;
 	    
 	    @FXML
 	    private TableColumn <AlunoTO, Integer> columnID;

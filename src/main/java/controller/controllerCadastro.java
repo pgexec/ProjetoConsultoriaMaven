@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 
 import Enum.TipoTreino;
 import Models.Aluno;
-import Models.Treino;
 import application.Main;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -60,8 +59,7 @@ public class controllerCadastro{
     public void voltarMenu() {
     	Main.loadView("main");
     }
-    
-    
+   
     @FXML
     public void handleCadastro(){
     	

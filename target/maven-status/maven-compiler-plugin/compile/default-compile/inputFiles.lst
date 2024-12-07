@@ -3,6 +3,7 @@
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/repository/Repository.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/DAOs/treinoDAO.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/telas/alterar.java
+/home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/Enum/NivelDificuldade.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/ClassesTeste/AlunoDAOTest.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/ClassesTeste/TreinoDAOTest.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/controller/controllerAlterar.java
@@ -16,6 +17,7 @@
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/application/Main.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/DTOs/TreinoTO.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/telas/listar.java
+/home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/Enum/Intensidade.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/Interface/CrudRepository.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/Models/Treino.java
 /home/paulo/Área de Trabalho/javaProjetos/projetoAcad/src/main/java/controller/ControllerMain.java
