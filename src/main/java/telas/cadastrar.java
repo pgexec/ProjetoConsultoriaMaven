@@ -15,7 +15,7 @@ public class cadastrar extends Application{
 		
 		Parent root = FXMLLoader.load(getClass().getResource("/view/cadastrar.fxml"));
 		Scene scene = new Scene(root);//coloca o FXML em uma cena
-		primaryStage.setTitle("cadastrar");
+		primaryStage.setTitle("cadastrar alunos");
 		primaryStage.centerOnScreen();
 		primaryStage.setScene(scene);
 		primaryStage.show();

@@ -34,7 +34,7 @@ public class Main extends Application {
 		try {
 	        System.out.println("Carregando: " + tela);
 			Pane root = FXMLLoader.load(Main.class.getResource(tela));
-			Scene scene = new Scene(root,950,600);
+			Scene scene = new Scene(root,646,471);
 			stage.setScene(scene);
 			stage.show();
 			stage.centerOnScreen();

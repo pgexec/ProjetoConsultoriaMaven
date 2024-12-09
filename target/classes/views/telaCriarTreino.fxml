@@ -9,20 +9,20 @@
 
 <Pane prefHeight="471.0" prefWidth="646.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerCriarTreino">
     <children>
-        <Label layoutX="43.0" layoutY="104.0" prefHeight="16.0" prefWidth="103.0" text="Tipo de Treino:" />
-      <Label layoutX="43.0" layoutY="181.0" prefHeight="16.0" prefWidth="85.0" text="Intensidade:" />
-      <Label layoutX="42.0" layoutY="264.0" prefHeight="16.0" prefWidth="139.0" text="Nivel de dificuldade:" />
-      <Label layoutX="43.0" layoutY="340.0" prefHeight="16.0" prefWidth="103.0" text="Data do Inicio:" />
-      <ComboBox fx:id="tipoTreinoComboBox" layoutX="323.0" layoutY="100.0" prefWidth="150.0" />
+        <Label layoutX="43.0" layoutY="117.0" prefHeight="16.0" prefWidth="103.0" text="Tipo de Treino:" />
+      <Label layoutX="43.0" layoutY="179.0" prefHeight="16.0" prefWidth="85.0" text="Intensidade:" />
+      <Label layoutX="42.0" layoutY="240.0" prefHeight="16.0" prefWidth="139.0" text="Nivel de dificuldade:" />
+      <Label layoutX="43.0" layoutY="300.0" prefHeight="16.0" prefWidth="103.0" text="Data do Inicio:" />
+      <ComboBox fx:id="tipoTreinoComboBox" layoutX="323.0" layoutY="113.0" prefWidth="150.0" />
       <ComboBox fx:id="intensidadeComboBox" layoutX="323.0" layoutY="175.0" prefWidth="150.0" />
-      <ComboBox fx:id="nivelDificuldadeComboBox" layoutX="323.0" layoutY="259.0" prefWidth="150.0" />
-      <TextField fx:id="dataInicioField" layoutX="323.0" layoutY="342.0" prefHeight="24.0" prefWidth="150.0" />
-      <Label layoutX="60.0" layoutY="37.0" prefHeight="21.0" prefWidth="284.0" text="Criaçao do Treino do Aluno:">
+      <ComboBox fx:id="nivelDificuldadeComboBox" layoutX="323.0" layoutY="236.0" prefWidth="150.0" />
+      <TextField fx:id="dataInicioField" layoutX="323.0" layoutY="296.0" prefHeight="24.0" prefWidth="150.0" />
+      <Label layoutX="43.0" layoutY="36.0" prefHeight="21.0" prefWidth="284.0" text="Criaçao do Treino do Aluno:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="criarTreinoButton" layoutX="507.0" layoutY="418.0" mnemonicParsing="false" text="CRIAR TREINO" />
-      <Button fx:id="cancelarButton" layoutX="42.0" layoutY="418.0" mnemonicParsing="false" text="Cancelar" />
+      <Button fx:id="criarTreinoButton" layoutX="512.0" layoutY="418.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="93.0" text="CRIAR TREINO" />
+      <Button fx:id="cancelarButton" layoutX="42.0" layoutY="418.0" mnemonicParsing="false" text="CANCELAR" />
     </children>
 </Pane>

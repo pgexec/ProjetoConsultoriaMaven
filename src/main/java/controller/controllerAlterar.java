@@ -69,7 +69,7 @@ public class controllerAlterar implements Initializable{
 		this.addDateValidation(dataNascField);
 		this.addPesoMask(pesoField);
 		this.addDateValidation(dataInicioField);
-		tipoTreinoSelected.getItems().addAll(TipoTreino.values());
+//		tipoTreinoSelected.getItems().addAll(TipoTreino.values());
 	}
 	
 	

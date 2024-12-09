@@ -200,4 +200,21 @@ public class Repository implements CrudRepository<Aluno>{
         treino.setNivelDificuldade(treinoTO.getNivelDificuldade());
         return treino;
 	}
+
+	public void insert(TreinoTO treinoTO2, int alunoId) {
+		TreinoTO treinoTO = new TreinoTO();
+
+        treinoTO.setId(treinoTO2.getId());
+        treinoTO.setAlunoId(alunoId);
+        treinoTO.setData(treinoTO2.getData());
+        treinoTO.setTipoTreino(treinoTO2.getTipoTreino());
+        treinoTO.setIntensidade(treinoTO2.getIntensidade());
+        treinoTO.setNivelDificuldade(treinoTO2.getNivelDificuldade());
+
+        boolean treinoAtualizado = treinoDAO.update(treinoTO);
+        if (!treinoAtualizado) {
+            throw new RuntimeException("Falha ao atualizar treino.");
+        }
+		
+	}
 }

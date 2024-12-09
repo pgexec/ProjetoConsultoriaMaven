@@ -1,18 +1,26 @@
 package controller;
 
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import Enum.TipoTreino;
+//import Enum.TipoTreino;
 import Models.Aluno;
 import application.Main;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
+import javafx.fxml.FXMLLoader;
+//import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import repository.Repository;
 
 public class controllerCadastro{
@@ -38,11 +46,17 @@ public class controllerCadastro{
     @FXML
     private TextField pesoField;
 
+//    @FXML
+//    private ComboBox<TipoTreino> tipoTreinoSelected;
+
     @FXML
-    private ComboBox<TipoTreino> tipoTreinoSelected;
-    
+    private Button btCancelar;
+
     @FXML
-    private Button btvoltar;
+    private Button btFinalizar;
+
+    @FXML
+    private Button btVoltar;
     
     @FXML
     private void initialize() {
@@ -52,7 +66,7 @@ public class controllerCadastro{
         addPesoMask(pesoField);    
         addCpfValidation(cpfField);
         addDateValidation(dataNascField);
-        tipoTreinoSelected.getItems().addAll(TipoTreino.values());
+//        tipoTreinoSelected.getItems().addAll(TipoTreino.values());
     }
     
     public void voltarMenu() {
@@ -60,23 +74,94 @@ public class controllerCadastro{
     }
    
     @FXML
-    public void handleCadastro(){
-    	
-    	String dataNascimentoTxt = dataNascField.getText();
-    	DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd/MM/yyyy");	
-    	
-    	
-    	String nome = nameField.getText();
-    	String cpf = cpfField.getText();
-    	LocalDate dataNasc = LocalDate.parse(dataNascimentoTxt,formatoData);
-    	Double peso = Double.parseDouble(pesoField.getText());
-    	Double altura = Double.parseDouble(alturaField.getText());
-    	Aluno aluno = new Aluno(nome,cpf,dataNasc,peso,altura,null);
-    	
-    	Repository repository = new Repository();
-    	repository.insert(aluno);  	
+    private void cancelarCadastro() {
+        // Exibe um alerta de confirmação
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, 
+            "Tem certeza que deseja cancelar o cadastro? Todos os dados serão perdidos.", 
+            ButtonType.YES, ButtonType.NO);
+        alert.setTitle("Cancelar Cadastro");
+        alert.setHeaderText(null);
+
+        // Verifica a escolha do usuário
+        if (alert.showAndWait().orElse(ButtonType.NO) == ButtonType.YES) {
+            limparCampos(); // Limpa os campos do formulário
+            voltarMenu();   // Retorna ao menu principal ou tela inicial
+        }
+    }
+
+    // Função auxiliar para limpar os campos do formulário
+    private void limparCampos() {
+        nameField.clear();
+        cpfField.clear();
+        dataNascField.clear();
+        pesoField.clear();
+        alturaField.clear();
     }
     
+    @FXML
+    public void handleCadastro() {
+	    try {
+	        // Validação de campos obrigatórios
+	        if (nameField.getText().isEmpty() || 
+	            cpfField.getText().isEmpty() || 
+	            dataNascField.getText().isEmpty() || 
+	            pesoField.getText().isEmpty() || 
+	            alturaField.getText().isEmpty()) {
+	            
+	            Alert alert = new Alert(Alert.AlertType.ERROR, "Preencha todos os campos obrigatórios.");
+	            alert.setTitle("Erro de Validação");
+	            alert.setHeaderText(null);
+	            alert.showAndWait();
+	            return;
+	        }
+	
+	        // Conversão de dados
+	        String nome = nameField.getText();
+	        String cpf = cpfField.getText();
+	        LocalDate dataNasc = LocalDate.parse(dataNascField.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	        Double peso = Double.parseDouble(pesoField.getText());
+	        Double altura = Double.parseDouble(alturaField.getText());
+	
+	        // Criação do objeto Aluno
+	        Aluno aluno = new Aluno(nome, cpf, dataNasc, peso, altura, null);
+	
+	        // Inserção no repositório
+	        Repository repository = new Repository();
+	        repository.insert(aluno);
+	
+	        // Confirmação e pergunta sobre o treino
+	        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Cadastro finalizado! Deseja cadastrar um treino para o cliente?", ButtonType.YES, ButtonType.NO);
+	        alert.setTitle("Cadastro Concluído");
+	        alert.setHeaderText(null);
+	
+	        // Resposta do usuário
+	        if (alert.showAndWait().orElse(ButtonType.NO) == ButtonType.YES) {
+	            carregarTelaTreino(); // Carrega a tela de cadastro de treino
+	        } else {
+	            limparCampos(); // Limpa os campos do formulário
+	            voltarMenu();   // Retorna ao menu principal
+	        }
+	
+	    } catch (Exception e) {
+	        // Tratamento de exceções e exibição de alerta em caso de erro
+	        Alert alert = new Alert(Alert.AlertType.ERROR, "Ocorreu um erro ao processar o cadastro. Verifique os dados e tente novamente.");
+	        alert.setTitle("Erro no Cadastro");
+	        alert.setHeaderText(null);
+	        alert.showAndWait();
+	        e.printStackTrace(); // Para depuração
+	    }
+	}
+	    
+    private void carregarTelaTreino() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/telaCriarTreino.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) btFinalizar.getScene().getWindow(); // Pega a janela atual
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
     private void addAlturaMask(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -103,8 +188,6 @@ public class controllerCadastro{
         });
     }
 
-
-    
     private void addDateValidation(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             Platform.runLater(() -> {
@@ -162,9 +245,6 @@ public class controllerCadastro{
         });
     }
 
-
-
-
     // Função para formatar e validar CPF no formato 000.000.000-00 enquanto o usuário digita
     private void addCpfValidation(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -193,11 +273,6 @@ public class controllerCadastro{
         });
     }
 
-	
-    
-    
-    
-    
 }
 
 
