@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.TableView;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -61,6 +62,9 @@ public class controllerCadastro{
 
     @FXML
     private Button btVoltar;
+    
+    @FXML
+    private TableView<AlunoTO> tableViewAlunos;
     
     @FXML
     private void initialize() {
@@ -152,6 +156,8 @@ public class controllerCadastro{
             Repository repository = new Repository();
             repository.insert(aluno);
 
+            
+            System.out.println(repository.toString());
          // Criação do dialog de confirmação
             System.out.println("Criando o diálogo de confirmação.");
             Dialog<ButtonType> dialog = new Dialog<>();
@@ -177,6 +183,11 @@ public class controllerCadastro{
           // Resposta do usuário
             if (result == buttonYes) {
                System.out.println("Usuário escolheu 'Sim'. Redirecionando para a tela de treino.");
+//               AlunoTO alunoSelecionado = repository.insert(aluno);
+//               System.out.println(alunoSelecionado);
+               
+//               controllerCriarTreino.alunoAtual = alunoSelecionado;
+               Main.loadView("criarTreino");
            } else {
                System.out.println("Usuário escolheu 'Não'. Limpando campos e voltando ao menu.");
                limparCampos(); // Limpa os campos

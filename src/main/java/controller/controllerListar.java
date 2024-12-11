@@ -3,12 +3,15 @@ package controller;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import DAOs.alunoDAO;
 import DTOs.AlunoTO;
+import DTOs.TreinoTO;
 import Models.Aluno;
+import Models.Treino;
 import application.Main;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -79,37 +82,58 @@ public class controllerListar {
 	    private TableView<AlunoTO> tableViewAlunos;
 
 	    public void visualizarDadosAluno() {
-	        // Obtém o aluno selecionado na tabela
-	        AlunoTO alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
+    // Obtém o aluno selecionado na tabela
+    AlunoTO alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
 
-	        // Verifica se um aluno foi selecionado
-	        if (alunoSelecionado != null) {
-	            // Cria um alert para mostrar os dados do aluno
-	            Alert alert = new Alert(AlertType.INFORMATION);
-	            alert.setTitle("Detalhes do Aluno");
-	            alert.setHeaderText("Informações do Aluno");
+    // Verifica se um aluno foi selecionado
+    if (alunoSelecionado != null) {
+        // Cria um alert para mostrar os dados do aluno
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Detalhes do Aluno");
+        alert.setHeaderText("Informações do Aluno");
 
-	            // Define o conteúdo do alert com os dados do aluno
-	            String alunoInfo = "Nome: " + alunoSelecionado.getNome() + "\n"
-	                             + "CPF: " + alunoSelecionado.getCpf() + "\n"
-	                             + "Data de Nascimento: " + alunoSelecionado.getDataNascimento() + "\n"
-	                             + "Peso: " + alunoSelecionado.getPeso() + " kg\n"
-	                             + "Altura: " + alunoSelecionado.getAltura() + " m";
-	            
-	            alert.setContentText(alunoInfo);
+        // Busca os treinos do aluno no banco de dados
+        Repository repository = new Repository();
+        Aluno treinos = repository.buscarPorId(alunoSelecionado.getId());
+        System.out.println(treinos.toString());
 
-	            // Exibe o alert
-	            alert.showAndWait();
-	        } else {
-	            // Caso nenhum aluno seja selecionado, exibe um alerta de erro
-	            Alert alerta = new Alert(AlertType.WARNING);
-	            alerta.setTitle("Seleção Necessária");
-	            alerta.setHeaderText("Nenhum Aluno Selecionado");
-	            alerta.setContentText("Por favor, selecione um aluno na tabela para visualizar.");
-	            alerta.showAndWait();
-	        }
-	    }
-	    
+        // Define o conteúdo do alert com os dados do aluno e dos treinos
+        StringBuilder alunoInfo = new StringBuilder();
+        alunoInfo.append("Aluno: \n")
+                 .append("ID: ").append(treinos.getId()).append("\n")
+                 .append("Nome: ").append(treinos.getNome()).append("\n")
+                 .append("CPF: ").append(treinos.getCpf()).append("\n")
+                 .append("Data de Nascimento: ").append(treinos.getDataNascimento()).append("\n")
+                 .append("Peso: ").append(treinos.getPeso()).append(" kg\n")
+                 .append("Altura: ").append(treinos.getAltura()).append(" m\n");
+
+        Treino treino = treinos.getTreino();
+        if (treino != null) {
+            alunoInfo.append("Treino: \n")
+//                     .append("  ID: ").append(treino.getId()).append("\n")
+//                     .append("  Aluno ID: ").append(treino.getAlunoId()).append("\n")
+                     .append("  Tipo de Treino: ").append(treino.getTipoTreino()).append("\n")
+                     .append("  Intensidade: ").append(treino.getIntensidade()).append("\n")
+                     .append("  Data: ").append(treino.getData()).append("\n")
+                     .append("  Nível de Dificuldade: ").append(treino.getNivelDificuldade()).append("\n");
+        } else {
+            alunoInfo.append("Treino: Nenhum treino registrado.\n");
+        }
+
+        alert.setContentText(alunoInfo.toString());
+
+        // Exibe o alert
+        alert.showAndWait();
+    } else {
+        // Caso nenhum aluno seja selecionado, exibe um alerta de erro
+        Alert alerta = new Alert(AlertType.WARNING);
+        alerta.setTitle("Seleção Necessária");
+        alerta.setHeaderText("Nenhum Aluno Selecionado");
+        alerta.setContentText("Por favor, selecione um aluno na tabela para visualizar.");
+        alerta.showAndWait();
+    }
+}
+
 	    public void listarAlunos() {
 	        alunoDAO dao = new alunoDAO();
 
