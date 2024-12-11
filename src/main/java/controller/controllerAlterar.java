@@ -58,12 +58,16 @@ public class controllerAlterar implements Initializable{
     @FXML
     private ComboBox<TipoTreino> tipoTreinoSelected;
     
-    private AlunoTO alunoAtual;
+    public static AlunoTO alunoAtual;
     
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		nameField.setText(alunoAtual.getNome().toString());
+		pesoField.setText(alunoAtual.getPeso().toString());
+		alturaField.setText(alunoAtual.getAltura().toString());
+		cpfField.setText(alunoAtual.getCpf().toString());
+		dataNascField.setText(alunoAtual.getDataNascimento().toString());
 		this.addAlturaMask(alturaField);
 		this.addCpfValidation(cpfField);
 		this.addDateValidation(dataNascField);
@@ -74,7 +78,7 @@ public class controllerAlterar implements Initializable{
 	
 	
 	
-	private ObservableList<AlunoTO> listaAlunos;
+	static ObservableList<AlunoTO> listaAlunos;
 
 	public void setListaAlunos(ObservableList<AlunoTO> listaAlunos) {
 	    this.listaAlunos = listaAlunos;
