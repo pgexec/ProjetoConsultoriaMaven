@@ -61,22 +61,37 @@ public class controllerAlterar implements Initializable{
     public static AlunoTO alunoAtual;
     
     
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		nameField.setText(alunoAtual.getNome().toString());
-		pesoField.setText(alunoAtual.getPeso().toString());
-		alturaField.setText(alunoAtual.getAltura().toString());
-		cpfField.setText(alunoAtual.getCpf().toString());
-		dataNascField.setText(alunoAtual.getDataNascimento().toString());
-		this.addAlturaMask(alturaField);
-		this.addCpfValidation(cpfField);
-		this.addDateValidation(dataNascField);
-		this.addPesoMask(pesoField);
-		this.addDateValidation(dataInicioField);
-//		tipoTreinoSelected.getItems().addAll(TipoTreino.values());
-	}
-	
-	
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if (alunoAtual != null) {
+            // Preenche os campos com os valores do alunoAtual
+            nameField.setText(alunoAtual.getNome());
+            pesoField.setText(alunoAtual.getPeso().toString());
+    		alturaField.setText(alunoAtual.getAltura().toString());
+            cpfField.setText(alunoAtual.getCpf());
+            
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            // Formata a data de nascimento no formato "dd/MM/yyyy"
+            if (alunoAtual.getDataNascimento() != null) {
+                dataNascField.setText(alunoAtual.getDataNascimento().format(formatter));
+            }
+
+            // Adiciona máscaras e validações aos campos
+            this.addAlturaMask(alturaField);
+            this.addCpfValidation(cpfField);
+            this.addDateValidation(dataNascField);
+            this.addPesoMask(pesoField);
+//            this.addDateValidation(dataInicioField);
+
+        } else {
+            // Caso o alunoAtual esteja nulo, exibe uma mensagem de erro
+            Alert alertaErro = new Alert(AlertType.ERROR);
+            alertaErro.setTitle("Erro");
+            alertaErro.setHeaderText("Aluno não selecionado");
+            alertaErro.setContentText("Nenhum aluno foi carregado para a edição.");
+            alertaErro.showAndWait();
+        }
+    }
 	
 	static ObservableList<AlunoTO> listaAlunos;
 
@@ -101,78 +116,78 @@ public class controllerAlterar implements Initializable{
 	
 	//função que salva as alterações que são feito no formulário
 	public void salvarAlteracoes() {
-		
-		
-	    if (alunoAtual.getId() == 0) {
-	    	
-	        Alert alertaErro = new Alert(AlertType.ERROR);
-	        alertaErro.setTitle("Erro");
-	        alertaErro.setHeaderText("Ocorreu um erro");
-	        alertaErro.setContentText("Erro, ID de aluno inválido, impossível efetuar alteração");
-	        alertaErro.showAndWait();
-	        return;
-	    }
+    if (alunoAtual.getId() == 0) {
+        Alert alertaErro = new Alert(AlertType.ERROR);
+        alertaErro.setTitle("Erro");
+        alertaErro.setHeaderText("Ocorreu um erro");
+        alertaErro.setContentText("Erro, ID de aluno inválido, impossível efetuar alteração");
+        alertaErro.showAndWait();
+        return;
+    }
 
-	    // Atualiza os dados do alunoAtual
-	    alunoAtual.setNome(nameField.getText());
-	    alunoAtual.setCpf(cpfField.getText());
-	    alunoAtual.setPeso(Double.parseDouble(pesoField.getText()));
-	    alunoAtual.setAltura(Double.parseDouble(alturaField.getText()));
-	    System.out.println(alunoAtual.getId());
+    // Atualiza os dados do alunoAtual
+    alunoAtual.setNome(nameField.getText());
+    alunoAtual.setCpf(cpfField.getText());
+    
+    try {
+        alunoAtual.setPeso(Double.parseDouble(pesoField.getText()));
+        alunoAtual.setAltura(Double.parseDouble(alturaField.getText()));
+    } catch (NumberFormatException e) {
+        Alert alertaErro = new Alert(AlertType.ERROR);
+        alertaErro.setTitle("Erro");
+        alertaErro.setHeaderText("Erro no formato numérico");
+        alertaErro.setContentText("Os campos de peso e altura devem conter apenas números válidos.");
+        alertaErro.showAndWait();
+        return;
+    }
 
-	    try{
-	        // Configura o DateTimeFormatter para o formato esperado
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-	        alunoAtual.setDataNascimento(LocalDate.parse(dataNascField.getText(), formatter));
+    try {
+        // Configura o DateTimeFormatter para o formato correto
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        alunoAtual.setDataNascimento(LocalDate.parse(dataNascField.getText(), formatter));
+        
+        alunoDAO dao = new alunoDAO();
+        if (dao.update(alunoAtual)) {
+            // Sucesso na atualização
+            Alert alertaSucesso = new Alert(AlertType.INFORMATION);
+            alertaSucesso.setTitle("Sucesso");
+            alertaSucesso.setHeaderText("Atualização bem-sucedida");
+            alertaSucesso.setContentText("O aluno foi alterado com sucesso.");
+            alertaSucesso.showAndWait();
 
-	      
-	        alunoDAO dao = new alunoDAO();
-	        
-	        if (!dao.update(alunoAtual)) {
-	        	
-	            Alert alertaErro = new Alert(AlertType.ERROR);
-	            alertaErro.setTitle("Erro");
-	            alertaErro.setHeaderText("Ocorreu um erro");
-	            alertaErro.setContentText("Erro ao atualizar o aluno no banco de dados");
-	            alertaErro.showAndWait();
-	            
-	        } else {
-	        	
-	            Alert alertaSucesso = new Alert(AlertType.INFORMATION);
-	            alertaSucesso.setTitle("Sucesso");
-	            alertaSucesso.setHeaderText("Atualização bem-sucedida");
-	            alertaSucesso.setContentText("O aluno foi alterado com sucesso.");
-	            alertaSucesso.showAndWait();
+            // Atualiza o ObservableList
+            int index = listaAlunos.indexOf(alunoAtual);
+            if (index >= 0) {
+                listaAlunos.set(index, alunoAtual);
+            }
 
-	            // Atualiza o ObservableList
-	            int index = listaAlunos.indexOf(alunoAtual);
-	            if (index >= 0) {
-	                listaAlunos.set(index, alunoAtual);
-	            }
-	            Stage stageAtual = (Stage) btAlterar.getScene().getWindow();
-	            stageAtual.close();
-	        }
-	    }catch (DateTimeParseException e){
-	        Alert alertaErro = new Alert(AlertType.ERROR);
-	        alertaErro.setTitle("Erro");
-	        alertaErro.setHeaderText("Erro no formato da data");
-	        alertaErro.setContentText("Por favor, insira a data no formato yyyy/MM/dd.");
-	        alertaErro.showAndWait();
-	        e.printStackTrace();     
-	    }catch(Exception e){
-	        Alert alertaErro = new Alert(AlertType.ERROR);
-	        alertaErro.setTitle("Erro");
-	        alertaErro.setHeaderText("Erro ao salvar alterações");
-	        alertaErro.setContentText("Ocorreu um problema ao salvar as alterações.");
-	        alertaErro.showAndWait();
-	        e.printStackTrace();
-	    }
-	}
+            // Retorna à tela de listagem
+            Main.loadView("listar");
+        } else {
+            // Falha ao atualizar o banco de dados
+            Alert alertaErro = new Alert(AlertType.ERROR);
+            alertaErro.setTitle("Erro");
+            alertaErro.setHeaderText("Ocorreu um erro");
+            alertaErro.setContentText("Erro ao atualizar o aluno no banco de dados");
+            alertaErro.showAndWait();
+        }
+    } catch (DateTimeParseException e) {
+        Alert alertaErro = new Alert(AlertType.ERROR);
+        alertaErro.setTitle("Erro");
+        alertaErro.setHeaderText("Erro no formato da data");
+        alertaErro.setContentText("Por favor, insira a data no formato dd/MM/yyyy.");
+        alertaErro.showAndWait();
+        e.printStackTrace();
+    } catch (Exception e) {
+        Alert alertaErro = new Alert(AlertType.ERROR);
+        alertaErro.setTitle("Erro");
+        alertaErro.setHeaderText("Erro ao salvar alterações");
+        alertaErro.setContentText("Ocorreu um problema ao salvar as alterações.");
+        alertaErro.showAndWait();
+        e.printStackTrace();
+    }
+}
 
-
-	
-	
-	
 	
 	//Mascara da altura para o formulario de alterar
 	private void addAlturaMask(TextField textField) {

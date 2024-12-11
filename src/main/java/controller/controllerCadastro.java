@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import DTOs.AlunoTO;
 //import Enum.TipoTreino;
 import Models.Aluno;
 import application.Main;
@@ -176,7 +177,6 @@ public class controllerCadastro{
           // Resposta do usuário
             if (result == buttonYes) {
                System.out.println("Usuário escolheu 'Sim'. Redirecionando para a tela de treino.");
-               carregarTelaTreino(); // Redireciona para tela de treino
            } else {
                System.out.println("Usuário escolheu 'Não'. Limpando campos e voltando ao menu.");
                limparCampos(); // Limpa os campos

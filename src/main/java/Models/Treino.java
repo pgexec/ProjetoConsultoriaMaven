@@ -8,35 +8,26 @@ import java.time.LocalDate;
 
 
 public class Treino {
-    private int id;                     // ID único do treino
-    private int alunoId;                // ID do aluno relacionado
-    private TipoTreino tipoTreino;      // Enum para o foco do treino
+	private int id;                     // ID único do treino
+    private int aluno_id;                // ID do aluno relacionado
+    private TipoTreino tipo_treino;      // Enum para o foco do treino
     private Intensidade intensidade;    // Enum para intensidade do treino
     private LocalDate data;             // Data do treino
-    private NivelDificuldade nivelDificuldade; // Enum para nível de dificuldade
+    private NivelDificuldade nivel_dificuldade; // Enum para nível de dificuldade
 
-   
-    public Treino() {}
+    // Construtor vazio
+    public void TreinoTO() {}
 
     // Construtor completo
-    public Treino(int id, int alunoId, TipoTreino tipoTreino, Intensidade intensidade, LocalDate data, NivelDificuldade nivelDificuldade) {
+    public void TreinoTO(int id, int aluno_id, TipoTreino tipo_treino, Intensidade intensidade, LocalDate data, NivelDificuldade nivel_dificuldade) {
         this.id = id;
-        this.alunoId = alunoId;
-        this.tipoTreino = tipoTreino;
+        this.aluno_id = aluno_id;
+        this.tipo_treino = tipo_treino;
         this.intensidade = intensidade;
         this.data = data;
-        this.nivelDificuldade = nivelDificuldade;
+        this.nivel_dificuldade = nivel_dificuldade;
     }
 
-    
-    public Treino(int alunoId, TipoTreino tipoTreino, Intensidade intensidade, LocalDate data, NivelDificuldade nivelDificuldade) {
-        this.alunoId = alunoId;
-        this.tipoTreino = tipoTreino;
-        this.intensidade = intensidade;
-        this.data = data;
-        this.nivelDificuldade = nivelDificuldade;
-    }
-    
     // Getters e Setters
     public int getId() {
         return id;
@@ -45,24 +36,21 @@ public class Treino {
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public int getAlunoId() {
-        return alunoId;
+        return aluno_id;
     }
 
     public void setAlunoId(int alunoId) {
-        this.alunoId = alunoId;
+        this.aluno_id = alunoId;
     }
 
     public TipoTreino getTipoTreino() {
-        return tipoTreino;
+        return tipo_treino;
     }
 
     public void setTipoTreino(TipoTreino tipoTreino) {
-        if (tipoTreino == null) {
-            throw new IllegalArgumentException("Tipo de treino não pode ser nulo.");
-        }
-        this.tipoTreino = tipoTreino;
+        this.tipo_treino = tipoTreino;
     }
 
     public Intensidade getIntensidade() {
@@ -78,29 +66,26 @@ public class Treino {
     }
 
     public void setData(LocalDate data) {
-        if (data.isAfter(LocalDate.now())) {
-            throw new IllegalArgumentException("A data do treino não pode ser no futuro.");
-        }
         this.data = data;
     }
 
     public NivelDificuldade getNivelDificuldade() {
-        return nivelDificuldade;
+        return nivel_dificuldade;
     }
 
     public void setNivelDificuldade(NivelDificuldade nivelDificuldade) {
-        this.nivelDificuldade = nivelDificuldade;
+        this.nivel_dificuldade = nivelDificuldade;
     }
 
     @Override
     public String toString() {
         return "Treino{" +
                "id=" + id +
-               ", alunoId=" + alunoId +
-               ", tipoTreino=" + tipoTreino +
+               ", alunoId=" + aluno_id +
+               ", tipoTreino=" + tipo_treino +
                ", intensidade=" + intensidade +
                ", data=" + data +
-               ", nivelDificuldade=" + nivelDificuldade +
+               ", nivelDificuldade=" + nivel_dificuldade +
                '}';
     }
 }

@@ -204,19 +204,18 @@ public class Repository implements CrudRepository<Aluno>{
 	}
 
 	public void insert(TreinoTO treinoTO2, int alunoId) {
-		TreinoTO treinoTO = new TreinoTO();
+	    // Configura o TreinoTO para inserção
+	    TreinoTO treinoTO = new TreinoTO();
+	    treinoTO.setAlunoId(alunoId);
+	    treinoTO.setData(treinoTO2.getData());
+	    treinoTO.setTipoTreino(treinoTO2.getTipoTreino());
+	    treinoTO.setIntensidade(treinoTO2.getIntensidade());
+	    treinoTO.setNivelDificuldade(treinoTO2.getNivelDificuldade());
 
-        treinoTO.setId(treinoTO2.getId());
-        treinoTO.setAlunoId(alunoId);
-        treinoTO.setData(treinoTO2.getData());
-        treinoTO.setTipoTreino(treinoTO2.getTipoTreino());
-        treinoTO.setIntensidade(treinoTO2.getIntensidade());
-        treinoTO.setNivelDificuldade(treinoTO2.getNivelDificuldade());
-
-        boolean treinoAtualizado = treinoDAO.update(treinoTO);
-        if (!treinoAtualizado) {
-            throw new RuntimeException("Falha ao atualizar treino.");
+	    // Chama o método de inserção no DAO e captura o ID gerado
+	    boolean treinoInserido = treinoDAO.insert(treinoTO);
+	    if (!treinoInserido) {
+            System.out.println("Falha ao inserir treino.");
         }
-		
 	}
 }

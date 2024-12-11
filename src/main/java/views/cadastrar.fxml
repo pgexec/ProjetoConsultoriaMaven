@@ -6,28 +6,28 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="471.0" prefWidth="646.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerCadastro">
+<Pane prefHeight="415.0" prefWidth="937.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.controllerCadastro">
     <children>
-                    <Label layoutX="40.0" layoutY="40.0" text="Preencha os dados do cliente abaixo:">
+                    <Label layoutX="40.0" layoutY="21.0" text="Preencha os dados do cliente abaixo:">
                         <font>
                             <Font name="System Bold" size="18.0" />
                         </font>
                     </Label>
-                    <Label layoutX="40.0" layoutY="109.0" text="Nome:" />
-                    <TextField fx:id="nameField" layoutX="178.0" layoutY="105.0" prefHeight="24.0" prefWidth="212.0" promptText="Digite o nome completo" />
-                    <Label layoutX="40.0" layoutY="175.0" text="CPF:" />
-                    <TextField fx:id="cpfField" layoutX="178.0" layoutY="171.0" prefHeight="24.0" prefWidth="212.0" promptText="Digite seu CPF" />
-                    <Label layoutX="40.0" layoutY="305.0" text="Data de nascimento:" />
-                    <TextField fx:id="dataNascField" layoutX="178.0" layoutY="301.0" prefHeight="24.0" prefWidth="212.0" promptText="Data de nascimento" />
-                    <Label layoutX="40.0" layoutY="240.0" text="Peso:" />
-                    <TextField fx:id="pesoField" layoutX="178.0" layoutY="236.0" prefHeight="24.0" prefWidth="212.0" promptText="Digite seu peso" />
-                    <Label layoutX="40.0" layoutY="372.0" text="Altura:" />
-                    <TextField fx:id="alturaField" layoutX="178.0" layoutY="368.0" prefHeight="24.0" prefWidth="212.0" promptText="Digite sua altura" />
+                    <Label layoutX="40.0" layoutY="90.0" text="Nome:" />
+                    <TextField fx:id="nameField" layoutX="178.0" layoutY="86.0" prefHeight="24.0" prefWidth="212.0" promptText="Digite o nome completo" />
+                    <Label layoutX="40.0" layoutY="156.0" text="CPF:" />
+                    <TextField fx:id="cpfField" layoutX="178.0" layoutY="152.0" prefHeight="24.0" prefWidth="212.0" promptText="Digite seu CPF" />
+                    <Label layoutX="478.0" layoutY="90.0" text="Data de nascimento:" />
+                    <TextField fx:id="dataNascField" layoutX="616.0" layoutY="86.0" prefHeight="24.0" prefWidth="212.0" promptText="Data de nascimento" />
+                    <Label layoutX="40.0" layoutY="221.0" text="Peso:" />
+                    <TextField fx:id="pesoField" layoutX="178.0" layoutY="217.0" prefHeight="24.0" prefWidth="212.0" promptText="Digite seu peso" />
+                    <Label layoutX="478.0" layoutY="157.0" text="Altura:" />
+                    <TextField fx:id="alturaField" layoutX="616.0" layoutY="153.0" prefHeight="24.0" prefWidth="212.0" promptText="Digite sua altura" />
                     
                     <!-- Botões -->
-                    <Button fx:id="btVoltar" layoutX="40.0" layoutY="424.0" mnemonicParsing="false" onAction="#voltarMenu" prefHeight="33.0" prefWidth="81.0" text="VOLTAR" />
-                    <Button fx:id="btCancelar" layoutX="435.0" layoutY="424.0" mnemonicParsing="false" onAction="#cancelarCadastro" prefHeight="33.0" prefWidth="81.0" text="CANCELAR" />
-                    <Button fx:id="btFinalizar" layoutX="526.0" layoutY="424.0" mnemonicParsing="false" onAction="#handleCadastro" prefHeight="33.0" prefWidth="81.0" text="FINALIZAR" />
+                    <Button fx:id="btVoltar" layoutX="27.0" layoutY="368.0" mnemonicParsing="false" onAction="#voltarMenu" prefHeight="33.0" prefWidth="81.0" text="VOLTAR" />
+                    <Button fx:id="btCancelar" layoutX="728.0" layoutY="374.0" mnemonicParsing="false" onAction="#cancelarCadastro" prefHeight="33.0" prefWidth="81.0" text="CANCELAR" />
+                    <Button fx:id="btFinalizar" layoutX="828.0" layoutY="374.0" mnemonicParsing="false" onAction="#handleCadastro" prefHeight="33.0" prefWidth="81.0" text="FINALIZAR" />
                 </children>
 
 </Pane>

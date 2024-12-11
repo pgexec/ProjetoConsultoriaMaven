@@ -40,20 +40,8 @@ public class controllerCriarTreino {
 
     @FXML
     private Button cancelarButton;
-    
-    private int alunoId;  // Variável para armazenar o ID do aluno
 
-    // Método para definir o ID do aluno
-    public void setAlunoId(int alunoId) {
-        this.alunoId = alunoId;
-        // Aqui você pode usar o alunoId para buscar informações adicionais do aluno ou para configurar a tela.
-        System.out.println("ID do aluno: " + alunoId);
-    }
-
-	public int getAlunoId() {
-		return alunoId;
-	}
-
+    public static AlunoTO alunoAtual;
 
 
 	@FXML
@@ -63,50 +51,53 @@ public class controllerCriarTreino {
         intensidadeComboBox.getItems().addAll(Intensidade.values());
         nivelDificuldadeComboBox.getItems().addAll(NivelDificuldade.values());
         cancelarButton.setOnAction(event -> cancelar());
+        criarTreinoButton.setOnAction(event -> criarTreino());
     }
 
-    private void criarTreino() {
+	@FXML
+	public void criarTreino() {
 	    try {
-	        // Obter o aluno selecionado da tabela
-	    	int alunoSelecionado = getAlunoId();
-	
 	        // Validar e obter os valores preenchidos
 	        TipoTreino tipoTreino = tipoTreinoComboBox.getValue();
 	        if (tipoTreino == null) throw new IllegalArgumentException("Selecione o Tipo de Treino.");
-	
+
 	        Intensidade intensidade = intensidadeComboBox.getValue();
 	        if (intensidade == null) throw new IllegalArgumentException("Selecione a Intensidade.");
-	
+
 	        NivelDificuldade nivelDificuldade = nivelDificuldadeComboBox.getValue();
 	        if (nivelDificuldade == null) throw new IllegalArgumentException("Selecione o Nível de Dificuldade.");
-	
+
 	        String dataTexto = dataInicioField.getText();
 	        if (dataTexto == null || dataTexto.isEmpty()) throw new IllegalArgumentException("Preencha a Data de Início.");
-	        
+
 	        LocalDate data;
 	        try {
 	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	            data = LocalDate.parse(dataTexto, formatter);
+	            if (data.isAfter(LocalDate.now())) {
+	                throw new IllegalArgumentException("A data de início não pode ser no futuro.");
+	            }
 	        } catch (DateTimeParseException e) {
 	            throw new IllegalArgumentException("A Data de Início deve estar no formato dd/MM/yyyy.");
 	        }
-	
-	        // Criar o objeto TreinoTO com o alunoId do aluno selecionado
-	        TreinoTO treinoTO = new TreinoTO(0, alunoSelecionado, tipoTreino, intensidade, data, nivelDificuldade); // ID será gerado no banco
-	
+
+	        // Criar o objeto TreinoTO
+	        TreinoTO treinoTO = new TreinoTO(0, alunoAtual.getId(), tipoTreino, intensidade, data, nivelDificuldade);
+
 	        // Inserção no repositório
 	        Repository repository = new Repository();
-	        repository.insert(treinoTO, alunoSelecionado);
-	        
-	        
+	        repository.insert(treinoTO, alunoAtual.getId());
+
+	        // Exibir mensagem de sucesso e limpar campos
 	        exibirAlerta(AlertType.INFORMATION, "Treino criado com sucesso!", treinoTO.toString());
-	        
-	
+	        System.out.println();
+	        limparCampos();
+	        Main.loadView("listar");
 	    } catch (IllegalArgumentException e) {
-	        // Exibir mensagem de erro
 	        exibirAlerta(AlertType.ERROR, "Erro ao criar treino", e.getMessage());
 	    }
 	}
+
     
     private void cancelar() {
     	Main.loadView("listar");
