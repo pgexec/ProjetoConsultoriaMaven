@@ -5,16 +5,16 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane id="paneMain" fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="625.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
+<Pane id="paneMain" fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="937.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerMain">
    <children>
-      <Label layoutX="237.0" layoutY="91.0" text="BEM - VINDO ">
+      <Label layoutX="402.0" layoutY="94.0" text="BEM - VINDO ">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button id="btCadastro" fx:id="btcadastro" layoutX="248.0" layoutY="158.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="125.0" text="CADASTRAR" textAlignment="CENTER" />
-      <Button id="btListar" fx:id="btListar" layoutX="250.0" layoutY="221.0" mnemonicParsing="false" text="LISTAR ALUNOS" textAlignment="CENTER" />
-      <Button id="btSair" layoutX="248.0" layoutY="291.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="125.0" text="SAIR" />
+      <Button id="btCadastro" fx:id="btcadastro" layoutX="404.0" layoutY="164.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="125.0" text="CADASTRAR" textAlignment="CENTER" />
+      <Button id="btListar" fx:id="btListar" layoutX="404.0" layoutY="204.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="LISTAR ALUNOS" textAlignment="CENTER" />
+      <Button id="btSair" layoutX="404.0" layoutY="297.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="125.0" text="SAIR" />
       <Label layoutX="130.0" layoutY="62.0" />
    </children>
 </Pane>

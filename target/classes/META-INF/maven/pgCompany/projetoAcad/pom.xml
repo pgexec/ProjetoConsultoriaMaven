@@ -13,17 +13,17 @@
     </properties>
 
     <dependencies>
-        <!-- JavaFX Controls -->
+        <!-- JavaFX Controls - caso não funcione altere a versão para a intalada em sua máquina-->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17.0.8</version>
+            <version>23.0.1</version>
         </dependency>
         <!-- JavaFX FXML -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17.0.8</version>
+            <version>23.0.1</version>
         </dependency>
          <dependency>
 	        <groupId>org.postgresql</groupId>

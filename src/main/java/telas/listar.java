@@ -17,6 +17,7 @@ public class listar extends Application{
 		Scene scene = new Scene(root);//coloca o FXML em uma cena
 		primaryStage.setTitle("listar alunos");
 		primaryStage.centerOnScreen();
+		primaryStage.setResizable(true);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		

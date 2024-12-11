@@ -19,44 +19,39 @@ public class treinoDAO implements CrudRepository<TreinoTO> {
 
 	@Override
 	public boolean insert(TreinoTO treino) {
-			
-		   String query = "INSERT INTO treino (data, aluno_id, tipo_treino, intensidade, nivel_dificuldade) " +
-	                "VALUES (?, ?, ?, ?, ?) RETURNING id";
+	    String query = "INSERT INTO treino (data, aluno_id, tipo_treino, intensidade, nivel_dificuldade) " +
+	                   "VALUES (?, ?, ?, ?, ?) RETURNING id";
 
-	try (Connection con = Conexao.getConexao();
+	    try (Connection con = Conexao.getConexao();
 	         PreparedStatement pstm = con.prepareStatement(query)) {
 
-	        con.setAutoCommit(false);
+	        con.setAutoCommit(false); // Inicia transação
 
-	      
+	        // Preenchimento dos parâmetros
 	        pstm.setDate(1, Date.valueOf(treino.getData()));
-            pstm.setInt(2, treino.getAlunoId());
-            pstm.setString(3, treino.getTipoTreino().name());
-            pstm.setString(4, treino.getIntensidade().name());
-            pstm.setString(5, treino.getNivelDificuldade().name());
+	        pstm.setInt(2, treino.getAlunoId());
+	        pstm.setString(3, treino.getTipoTreino().name());
+	        pstm.setString(4, treino.getIntensidade().name());
+	        pstm.setString(5, treino.getNivelDificuldade().name());
 
-	        
-	        try (ResultSet result = pstm.executeQuery()) {	
+	        try (ResultSet result = pstm.executeQuery()) {
 	            if (result.next()) {
 	                int idGerado = result.getInt("id");
-	                treino.setId(idGerado); 
-	                con.commit();
-	                return true;    
-	            } 
-	            
-	            else {
+	                treino.setId(idGerado); // Atualiza o ID no objeto
+	                con.commit(); // Confirma transação
+	                return true;
+	            } else {
 	                throw new SQLException("Falha ao recuperar o ID gerado.");
 	            }
-	            
-	        }catch (SQLException e) {
-	        	con.rollback();
+	        } catch (SQLException e) {
+	            con.rollback(); // Reverte transação em caso de erro
 	            throw new RuntimeException("Erro ao executar a query: " + e.getMessage(), e);
 	        }
 
 	    } catch (SQLException e) {
 	        throw new RuntimeException("Erro ao inserir treino: " + e.getMessage(), e);
 	    }
-}
+	}
 
 	@Override
 	public boolean update(TreinoTO treino) {

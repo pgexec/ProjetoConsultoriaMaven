@@ -3,31 +3,42 @@ package controller;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import DAOs.alunoDAO;
 import DTOs.AlunoTO;
+import DTOs.TreinoTO;
+import Models.Aluno;
+import Models.Treino;
 import application.Main;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import repository.Repository;
 
 
-public class controllerListar implements Initializable {
+public class controllerListar {
 
 	   @FXML
 	    private Button btAlterar;
@@ -63,14 +74,67 @@ public class controllerListar implements Initializable {
 	    private TableColumn<AlunoTO, Double> columnAltura;
 	    
 	    @FXML
+	    public void initialize() {
+	        listarAlunos();
+	    }
+	    
+	    @FXML
 	    private TableView<AlunoTO> tableViewAlunos;
-	  
 
+	    public void visualizarDadosAluno() {
+    // Obtém o aluno selecionado na tabela
+    AlunoTO alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
 
-	  
-    
+    // Verifica se um aluno foi selecionado
+    if (alunoSelecionado != null) {
+        // Cria um alert para mostrar os dados do aluno
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Detalhes do Aluno");
+        alert.setHeaderText("Informações do Aluno");
+
+        // Busca os treinos do aluno no banco de dados
+        Repository repository = new Repository();
+        Aluno treinos = repository.buscarPorId(alunoSelecionado.getId());
+        System.out.println(treinos.toString());
+
+        // Define o conteúdo do alert com os dados do aluno e dos treinos
+        StringBuilder alunoInfo = new StringBuilder();
+        alunoInfo.append("Aluno: \n")
+                 .append("ID: ").append(treinos.getId()).append("\n")
+                 .append("Nome: ").append(treinos.getNome()).append("\n")
+                 .append("CPF: ").append(treinos.getCpf()).append("\n")
+                 .append("Data de Nascimento: ").append(treinos.getDataNascimento()).append("\n")
+                 .append("Peso: ").append(treinos.getPeso()).append(" kg\n")
+                 .append("Altura: ").append(treinos.getAltura()).append(" m\n");
+
+        Treino treino = treinos.getTreino();
+        if (treino != null) {
+            alunoInfo.append("Treino: \n")
+//                     .append("  ID: ").append(treino.getId()).append("\n")
+//                     .append("  Aluno ID: ").append(treino.getAlunoId()).append("\n")
+                     .append("  Tipo de Treino: ").append(treino.getTipoTreino()).append("\n")
+                     .append("  Intensidade: ").append(treino.getIntensidade()).append("\n")
+                     .append("  Data: ").append(treino.getData()).append("\n")
+                     .append("  Nível de Dificuldade: ").append(treino.getNivelDificuldade()).append("\n");
+        } else {
+            alunoInfo.append("Treino: Nenhum treino registrado.\n");
+        }
+
+        alert.setContentText(alunoInfo.toString());
+
+        // Exibe o alert
+        alert.showAndWait();
+    } else {
+        // Caso nenhum aluno seja selecionado, exibe um alerta de erro
+        Alert alerta = new Alert(AlertType.WARNING);
+        alerta.setTitle("Seleção Necessária");
+        alerta.setHeaderText("Nenhum Aluno Selecionado");
+        alerta.setContentText("Por favor, selecione um aluno na tabela para visualizar.");
+        alerta.showAndWait();
+    }
+}
+
 	    public void listarAlunos() {
-	    	
 	        alunoDAO dao = new alunoDAO();
 
 	        // Obtendo a lista de AlunoTO e carregando-a no ObservableList
@@ -88,87 +152,95 @@ public class controllerListar implements Initializable {
 	        tableViewAlunos.setItems(alunos);
 	    }
 
-    public void excluirAluno() {
-    
-    	Repository repository = new Repository();
-    	AlunoTO alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
-    	
-    	if(alunoSelecionado != null) {
-    		
-    		repository.delete(alunoSelecionado.getId());
-    		tableViewAlunos.getItems().remove(alunoSelecionado);
-    		
-    		Alert confirmacao = new Alert(AlertType.INFORMATION);
-            confirmacao.setTitle("Confirmação de Exclusão");
-            confirmacao.setHeaderText("Exclusão Realizada com Sucesso");
-            confirmacao.setContentText("O aluno " + alunoSelecionado.getNome() + " foi excluído com sucesso.");
-            confirmacao.showAndWait();
-            
-    	}else {
-    		
-    		 Alert alerta = new Alert(AlertType.ERROR);
-    	     alerta.setTitle("Erro de Exclusão");
-    	     alerta.setHeaderText("Nenhum Aluno Selecionado");
-    	     alerta.setContentText("Por favor, selecione um aluno na tabela antes de clicar em Excluir.");
-    	     alerta.showAndWait();
-    	}
-    }
-    
-    public void alterarAluno() {
-    	
-    AlunoTO alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
-    System.out.println(alunoSelecionado);
+	    public void excluirAluno() {
+	        AlunoTO alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
+	        
+	        if (alunoSelecionado != null) {
+	            try {
+	                // Tenta excluir o aluno do banco de dados
+	                Repository repository = new Repository();
+	                repository.delete(alunoSelecionado.getId());
 
-    if (alunoSelecionado != null) {
-    	
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/alterar.fxml"));
-            Parent root = loader.load();
-                    
-            controllerAlterar controller = loader.getController();
-            
-            
-            controller.setAluno(alunoSelecionado);
-            controller.setListaAlunos(tableViewAlunos.getItems());
+	                // Remove o aluno da lista visível na tabela
+	                tableViewAlunos.getItems().remove(alunoSelecionado);
 
-            
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Alterar Aluno");
-            stage.show();
-            
-        } catch (IOException e) {
-        	
-            e.printStackTrace();
-            Alert alerta = new Alert(AlertType.ERROR);
-            alerta.setTitle("Erro ao Carregar a Tela");
-            alerta.setHeaderText("Não foi possível carregar a tela de alteração.");
-            alerta.setContentText("Por favor, verifique o arquivo alterar.fxml e tente novamente.");
-            alerta.showAndWait();
-        }
-    } else {
-        Alert alerta = new Alert(AlertType.WARNING);
-        alerta.setTitle("Seleção Necessária");
-        alerta.setHeaderText("Nenhum Aluno Selecionado");
-        alerta.setContentText("Por favor, selecione um aluno na tabela para alterar.");
-        alerta.showAndWait();
-    }
-    }
-    
-    public void voltarMenu() {
-    	Main.loadView("main");
-    }
-    
-    public void criarTreinoAluno() {
-    	Main.loadView("telaCriarTreino");
-    }
+	                // Exibe uma mensagem de sucesso
+	                exibirMensagemDeConfirmacao(alunoSelecionado);
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
-		System.out.println("Inicializando a tabela");
-		this.listarAlunos();
-		
-		
-	}
+	            } catch (Exception e) {
+	                // Caso ocorra um erro durante a exclusão
+	                exibirMensagemDeErro(e);
+	            }
+	        } else {
+	            // Caso não tenha selecionado um aluno
+	            exibirMensagemDeSelecao();
+	        }
+	    }
+
+	    // Método para exibir o alerta de confirmação de exclusão
+	    private void exibirMensagemDeConfirmacao(AlunoTO alunoSelecionado) {
+	        Alert confirmacao = new Alert(AlertType.INFORMATION);
+	        confirmacao.setTitle("Confirmação de Exclusão");
+	        confirmacao.setHeaderText("Exclusão Realizada com Sucesso");
+	        confirmacao.setContentText("O aluno " + alunoSelecionado.getNome() + " foi excluído com sucesso.");
+	        confirmacao.showAndWait();
+	    }
+
+	    // Método para exibir o alerta de erro em caso de falha na exclusão
+	    private void exibirMensagemDeErro(Exception e) {
+	        Alert erro = new Alert(AlertType.ERROR);
+	        erro.setTitle("Erro de Exclusão");
+	        erro.setHeaderText("Falha ao Excluir Aluno");
+	        erro.setContentText("Ocorreu um erro ao tentar excluir o aluno. Erro: " + e.getMessage());
+	        erro.showAndWait();
+	    }
+
+	    // Método para exibir o alerta caso nenhum aluno tenha sido selecionado
+	    private void exibirMensagemDeSelecao() {
+	        Alert alerta = new Alert(AlertType.ERROR);
+	        alerta.setTitle("Erro de Exclusão");
+	        alerta.setHeaderText("Nenhum Aluno Selecionado");
+	        alerta.setContentText("Por favor, selecione um aluno na tabela antes de clicar em Excluir.");
+	        alerta.showAndWait();
+	    }
+
+	    public void alterarAluno() {
+
+            AlunoTO alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
+            System.out.println(alunoSelecionado);
+            
+            controllerAlterar.alunoAtual = alunoSelecionado;
+            controllerAlterar.listaAlunos = tableViewAlunos.getItems();
+;
+            if (alunoSelecionado != null) {
+            	Main.loadView("alterar");                
+            } else {
+                Alert alerta = new Alert(AlertType.WARNING);
+                alerta.setTitle("Seleção Necessária");
+                alerta.setHeaderText("Nenhum Aluno Selecionado");
+                alerta.setContentText("Por favor, selecione um aluno na tabela para alterar.");
+                alerta.showAndWait();
+            }
+	    }
+	    
+	    public void voltarMenu() {
+	    	Main.loadView("main");
+	    }
+	    
+	    public void criarTreinoAluno() {
+	    	AlunoTO alunoSelecionado = tableViewAlunos.getSelectionModel().getSelectedItem();
+            System.out.println(alunoSelecionado);
+            
+            controllerCriarTreino.alunoAtual = alunoSelecionado;
+;
+            if (alunoSelecionado != null) {
+            	Main.loadView("telaCriarTreino");                
+            } else {
+                Alert alerta = new Alert(AlertType.WARNING);
+                alerta.setTitle("Seleção Necessária");
+                alerta.setHeaderText("Nenhum Aluno Selecionado");
+                alerta.setContentText("Por favor, selecione um aluno na tabela para alterar.");
+                alerta.showAndWait();
+            }
+	    }
 }
