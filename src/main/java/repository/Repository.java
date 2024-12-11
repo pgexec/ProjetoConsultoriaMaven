@@ -24,51 +24,53 @@ public class Repository implements CrudRepository<Aluno>{
 
 	@Override
 	public boolean insert(Aluno aluno) {
-		
-		 try {
-		      
-		        AlunoTO alunoTO = new AlunoTO();
-		        alunoTO.setCpf(aluno.getCpf());
-		        alunoTO.setAltura(aluno.getAltura());
-		        alunoTO.setNome(aluno.getNome());
-		        alunoTO.setPeso(aluno.getPeso());
-		        alunoTO.setDataNascimento(aluno.getDataNascimento());
+	    try {
+	        // Conversão do objeto Aluno para AlunoTO
+	        AlunoTO alunoTO = new AlunoTO();
+	        alunoTO.setCpf(aluno.getCpf());
+	        alunoTO.setAltura(aluno.getAltura());
+	        alunoTO.setNome(aluno.getNome());
+	        alunoTO.setPeso(aluno.getPeso());
+	        alunoTO.setDataNascimento(aluno.getDataNascimento());
 
-		     
-		        boolean alunoInserido = alunoDAO.insert(alunoTO);
-		        System.out.println(alunoTO.getId() + "este é o id do aluno");
-		        if (!alunoInserido) {
-		            System.out.println("Falha ao inserir aluno.");
-		            return false;
-		        }
+	        // Inserir aluno no banco de dados
+	        boolean alunoInserido = alunoDAO.insert(alunoTO);
+	        System.out.println(alunoTO.getId() + " este é o id do aluno");
+	        if (!alunoInserido) {
+	            System.out.println("Falha ao inserir aluno.");
+	            return false;
+	        }
 
-		      
-		        aluno.setId(alunoTO.getId());  
-		        if (aluno.getTreino() != null || aluno.getId() != 0) {
-		            Treino treino = aluno.getTreino();
-		       
-		            TreinoTO treinoTO = new TreinoTO();
-		            treinoTO.setTipoTreino(treino.getTipoTreino());
-		            treinoTO.setData(treino.getData());
-		            treinoTO.setAlunoId(alunoTO.getId());  
+	        // Atualizar ID do aluno no objeto principal
+	        aluno.setId(alunoTO.getId());
 
-		            // Inserir o treino
-		            boolean treinoInserido = treinoDAO.insert(treinoTO);
-		            if (!treinoInserido) {
-		                System.out.println("Falha ao inserir treino.");
-		                return false;
-		            }
-		        } else {
-		            System.out.println("Aluno não tem treino associado.");
-		        }
+	        // Verificar e inserir treino, se existir
+	        if (aluno.getTreino() != null) {
+	            Treino treino = aluno.getTreino();
 
-		        System.out.println("Aluno e treino inseridos com sucesso!");
-		        return true;
+	            TreinoTO treinoTO = new TreinoTO();
+	            treinoTO.setTipoTreino(treino.getTipoTreino());
+	            treinoTO.setData(treino.getData());
+	            treinoTO.setAlunoId(alunoTO.getId()); // Relacionar treino ao aluno inserido
 
-		    } catch (Exception e) {
-		        throw new RuntimeException("Erro ao inserir aluno e treino: " + e.getMessage(), e);
-		    }
+	            // Inserir o treino
+	            boolean treinoInserido = treinoDAO.insert(treinoTO);
+	            if (!treinoInserido) {
+	                System.out.println("Falha ao inserir treino.");
+	                return false;
+	            }
+	        } else {
+	            System.out.println("Aluno não tem treino associado.");
+	        }
+
+	        System.out.println("Aluno e treino inseridos com sucesso!");
+	        return true;
+
+	    } catch (Exception e) {
+	        throw new RuntimeException("Erro ao inserir aluno e treino: " + e.getMessage(), e);
+	    }
 	}
+
 
 	 @Override
 	    public boolean update(Aluno aluno) {

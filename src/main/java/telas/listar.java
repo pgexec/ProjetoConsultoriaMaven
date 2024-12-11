@@ -18,7 +18,7 @@ public class listar extends Application{
 		primaryStage.setTitle("listar alunos");
 		primaryStage.centerOnScreen();
 		primaryStage.setResizable(true);
-		primaryStage.setScene(new Scene(root, 937, 502));
+		primaryStage.setScene(scene);
 		primaryStage.show();
 		
 	}

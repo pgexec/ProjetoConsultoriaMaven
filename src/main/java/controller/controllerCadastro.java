@@ -5,10 +5,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Dialog;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 //import Enum.TipoTreino;
 import Models.Aluno;
@@ -100,68 +103,115 @@ public class controllerCadastro{
     
     @FXML
     public void handleCadastro() {
-	    try {
-	        // Validação de campos obrigatórios
-	        if (nameField.getText().isEmpty() || 
-	            cpfField.getText().isEmpty() || 
-	            dataNascField.getText().isEmpty() || 
-	            pesoField.getText().isEmpty() || 
-	            alturaField.getText().isEmpty()) {
-	            
-	            Alert alert = new Alert(Alert.AlertType.ERROR, "Preencha todos os campos obrigatórios.");
-	            alert.setTitle("Erro de Validação");
-	            alert.setHeaderText(null);
-	            alert.showAndWait();
-	            return;
-	        }
-	
-	        // Conversão de dados
-	        String nome = nameField.getText();
-	        String cpf = cpfField.getText();
-	        LocalDate dataNasc = LocalDate.parse(dataNascField.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-	        Double peso = Double.parseDouble(pesoField.getText());
-	        Double altura = Double.parseDouble(alturaField.getText());
-	
-	        // Criação do objeto Aluno
-	        Aluno aluno = new Aluno(nome, cpf, dataNasc, peso, altura, null);
-	
-	        // Inserção no repositório
-	        Repository repository = new Repository();
-	        repository.insert(aluno);
-	
-	        // Confirmação e pergunta sobre o treino
-	        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Cadastro finalizado! Deseja cadastrar um treino para o cliente?", ButtonType.YES, ButtonType.NO);
-	        alert.setTitle("Cadastro Concluído");
-	        alert.setHeaderText(null);
-	
-	        // Resposta do usuário
-	        if (alert.showAndWait().orElse(ButtonType.NO) == ButtonType.YES) {
-	            carregarTelaTreino(); // Carrega a tela de cadastro de treino
-	        } else {
-	            limparCampos(); // Limpa os campos do formulário
-	            voltarMenu();   // Retorna ao menu principal
-	        }
-	
-	    } catch (Exception e) {
-	        // Tratamento de exceções e exibição de alerta em caso de erro
-	        Alert alert = new Alert(Alert.AlertType.ERROR, "Ocorreu um erro ao processar o cadastro. Verifique os dados e tente novamente.");
-	        alert.setTitle("Erro no Cadastro");
-	        alert.setHeaderText(null);
-	        alert.showAndWait();
-	        e.printStackTrace(); // Para depuração
-	    }
-	}
-	    
+        try {
+            // Validação de campos obrigatórios
+            if (nameField.getText().isEmpty() || 
+                cpfField.getText().isEmpty() || 
+                dataNascField.getText().isEmpty() || 
+                pesoField.getText().isEmpty() || 
+                alturaField.getText().isEmpty()) {
+                
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Preencha todos os campos obrigatórios.");
+                alert.setTitle("Erro de Validação");
+                alert.setHeaderText(null);
+                alert.showAndWait();
+                return;
+            }
+
+            // Conversão de dados
+            String nome = nameField.getText().trim();
+            String cpf = cpfField.getText().trim();
+            LocalDate dataNasc;
+            try {
+                dataNasc = LocalDate.parse(dataNascField.getText().trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            } catch (DateTimeParseException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Por favor, insira uma data válida no formato dd/MM/yyyy.");
+                alert.setTitle("Erro de Formato");
+                alert.setHeaderText(null);
+                alert.showAndWait();
+                return;
+            }
+
+            Double peso, altura;
+            try {
+                peso = Double.parseDouble(pesoField.getText().trim());
+                altura = Double.parseDouble(alturaField.getText().trim());
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Por favor, insira valores numéricos válidos para peso e altura.");
+                alert.setTitle("Erro de Formato");
+                alert.setHeaderText(null);
+                alert.showAndWait();
+                return;
+            }
+
+            // Criação do objeto Aluno
+            Aluno aluno = new Aluno(nome, cpf, dataNasc, peso, altura, null);
+
+            // Operação de persistência
+            Repository repository = new Repository();
+            repository.insert(aluno);
+
+         // Criação do dialog de confirmação
+            System.out.println("Criando o diálogo de confirmação.");
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setTitle("Cadastro Concluído");
+            dialog.setHeaderText(null);
+
+            // Botões personalizados
+            ButtonType buttonYes = new ButtonType("Sim", ButtonBar.ButtonData.YES);
+            ButtonType buttonNo = new ButtonType("Não", ButtonBar.ButtonData.NO);
+            System.out.println("Adicionando botões personalizados.");
+            dialog.getDialogPane().getButtonTypes().addAll(buttonYes, buttonNo);
+
+            // Mensagem no corpo do dialog
+            System.out.println("Adicionando a mensagem no corpo do diálogo.");
+            dialog.getDialogPane().setContentText("Cadastro finalizado! Deseja cadastrar um treino para o cliente?");
+
+           
+           // Exibe o dialog e aguarda a resposta
+            System.out.println("Exibindo o diálogo.");
+            ButtonType result = dialog.showAndWait().orElse(buttonNo);  // Corrigido aqui
+            System.out.println("Resultado do diálogo: " + result);
+                
+          // Resposta do usuário
+            if (result == buttonYes) {
+               System.out.println("Usuário escolheu 'Sim'. Redirecionando para a tela de treino.");
+               carregarTelaTreino(); // Redireciona para tela de treino
+           } else {
+               System.out.println("Usuário escolheu 'Não'. Limpando campos e voltando ao menu.");
+               limparCampos(); // Limpa os campos
+               voltarMenu();   // Retorna ao menu principal
+           }
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Ocorreu um erro inesperado: " + e.getMessage());
+            alert.setTitle("Erro Inesperado");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+        }
+    }
+
+
+
     private void carregarTelaTreino() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/telaCriarTreino.fxml"));
             Parent root = loader.load();
-            Stage stage = (Stage) btFinalizar.getScene().getWindow(); // Pega a janela atual
+            
+            // Configura a nova cena e define na janela atual
+            Stage stage = (Stage) btFinalizar.getScene().getWindow();
             stage.setScene(new Scene(root));
         } catch (IOException e) {
+            // Exibe um alerta ao usuário sobre o erro
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Erro ao carregar a tela de treino. Por favor, tente novamente.");
+            alert.setTitle("Erro ao Carregar Tela");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+
+            // Log do erro para facilitar a depuração
             e.printStackTrace();
         }
     }
+
     
     private void addAlturaMask(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {

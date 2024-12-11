@@ -28,6 +28,15 @@ public class Treino {
         this.nivelDificuldade = nivelDificuldade;
     }
 
+    
+    public Treino(int alunoId, TipoTreino tipoTreino, Intensidade intensidade, LocalDate data, NivelDificuldade nivelDificuldade) {
+        this.alunoId = alunoId;
+        this.tipoTreino = tipoTreino;
+        this.intensidade = intensidade;
+        this.data = data;
+        this.nivelDificuldade = nivelDificuldade;
+    }
+    
     // Getters e Setters
     public int getId() {
         return id;
@@ -36,7 +45,7 @@ public class Treino {
     public void setId(int id) {
         this.id = id;
     }
-
+    
     public int getAlunoId() {
         return alunoId;
     }
@@ -50,6 +59,9 @@ public class Treino {
     }
 
     public void setTipoTreino(TipoTreino tipoTreino) {
+        if (tipoTreino == null) {
+            throw new IllegalArgumentException("Tipo de treino não pode ser nulo.");
+        }
         this.tipoTreino = tipoTreino;
     }
 
@@ -66,6 +78,9 @@ public class Treino {
     }
 
     public void setData(LocalDate data) {
+        if (data.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("A data do treino não pode ser no futuro.");
+        }
         this.data = data;
     }
 

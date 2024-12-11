@@ -13,7 +13,7 @@
     </properties>
 
     <dependencies>
-        <!-- JavaFX Controls -->
+        <!-- JavaFX Controls - caso não funcione altere a versão para a intalada em sua máquina-->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
